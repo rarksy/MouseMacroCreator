@@ -1,11 +1,7 @@
 ﻿#include "../GUI.h"
 #include "../../Menu/Menu.h"
-#include <fstream>
 
-bool ValidKeyword(std::string line, std::string keyword)
-{
-    return (line.find(keyword) != std::string::npos);
-}
+#include <fstream>
 
 void GUI::Specific::ViewSavedMacros::Run()
 {
@@ -29,7 +25,7 @@ void GUI::Specific::ViewSavedMacros::Run()
                 MacroAction action;
                 std::istringstream iss(line);
 
-                if (ValidKeyword(line, "SetMousePos"))
+                if (MacroCore::IsValidKeyword(line, "SetMousePos"))
                 {
                     action.actionType = MAT_MouseMove;
                     std::pair<int, int> pos;
@@ -38,7 +34,7 @@ void GUI::Specific::ViewSavedMacros::Run()
                         action.pairArgument = pos;
                 }
 
-                else if (ValidKeyword(line, "Sleep"))
+                else if (MacroCore::IsValidKeyword(line, "Sleep"))
                 {
                     action.actionType = MAT_Sleep;
                     int sleepAmount;
@@ -75,8 +71,18 @@ void GUI::Specific::ViewSavedMacros::Run()
     for (auto& macro : AllMacros)
         Menu::Log(macro.id, ": ", macro.name);
 
-    char option = Menu::GetKeyPress();
-    int optionIndex = option - '1';
+    char keyPressed = -1;
+    while (char key = _getch())
+    {
+        if (std::isdigit(key))
+        {
+            keyPressed = key;
+            break;
+        }
+    }
 
-    RunMacro::Run(AllMacros.at(optionIndex));
+    //char option = Menu::GetKeyPress(); // not getting user input after first time
+    int optionIndex = keyPressed - '1';
+
+    RunMacro::Run(AllMacros.at(optionIndex)); // crash
 }

@@ -1,34 +1,7 @@
 ﻿#pragma once
-#include <functional>
-#include <string>
-#include <vector>
+#include "../Macro/Macro.h"
 
-enum MacroActionType
-{
-    MAT_KeyDown,
-    MAT_KeyUp,
-    MAT_MouseMove,
-    MAT_MouseClick,
 
-    MAT_Sleep
-};
-
-struct MacroAction
-{
-    MacroActionType actionType;
-    std::string keyword;
-
-    int intArgument;
-    char charArgument;
-    std::pair<int, int> pairArgument;
-};
-
-struct Macro
-{
-    std::vector<MacroAction> actions;
-    std::string name;
-    char id;
-};
 
 namespace GUI
 {
@@ -45,12 +18,6 @@ namespace GUI
 
     namespace Specific
     {
-        namespace AddNewMacro
-        {
-            void Run();
-
-            inline std::vector<std::pair<char, std::string>> menuOptions;
-        }
 
         namespace ViewSavedMacros
         {

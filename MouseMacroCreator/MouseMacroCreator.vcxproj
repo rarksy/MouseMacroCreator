@@ -157,17 +157,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GUI's\GUI.cpp" />
-    <ClCompile Include="GUI's\MainMenu\MainMenu.cpp" />
     <ClCompile Include="GUI's\Specifics\RunMacro.cpp" />
     <ClCompile Include="GUI's\Specifics\ViewSavedMacros.cpp" />
+    <ClCompile Include="Macro\Macro.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI's\GUI.h" />
+    <ClInclude Include="Macro\Macro.h" />
     <ClInclude Include="Menu\Menu.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="GUI's\Specifics\AddNewMacro.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
