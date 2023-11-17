@@ -1,4 +1,5 @@
 # MouseMacroCreator
+A simple macro / scripting language and interpreter primarily used for simulating mouse and keyboard actions, this is solely being developed to increase my skills in various areas of C++
 
 # Documentation 📖
 ### SetMousePos
