@@ -158,7 +158,7 @@
   <ItemGroup>
     <ClCompile Include="GUI's\GUI.cpp" />
     <ClCompile Include="GUI's\MainMenu\MainMenu.cpp" />
-    <ClCompile Include="GUI's\Specifics\OpenMacro.cpp" />
+    <ClCompile Include="GUI's\Specifics\RunMacro.cpp" />
     <ClCompile Include="GUI's\Specifics\ViewSavedMacros.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -168,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GUI's\Specifics\AddNewMacro.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

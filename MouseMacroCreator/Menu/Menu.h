@@ -33,17 +33,7 @@ namespace Menu
     }
 }
 
-struct Macro
-{
-    std::vector<std::variant<std::pair<int, int>, std::variant<char, int>>> actions;
-    std::string name;
-    char id;
-};
-
 namespace Global
 {
     inline std::filesystem::path macroPath;
-
-    inline std::vector<Macro> allMacros;
-    
 }

@@ -31,26 +31,28 @@ int main()
 
     while (true)
     {
-        Log("MMC By Rarksy / ski");
-        Log("");
-        Log("Choose An Option");
-        Log("");
-        Log('1', ": ", "Add New Macro");
-        Log('2', ": ", "View Saved Macro's");
+
+        GUI::Specific::ViewSavedMacros::Run();
         
-
-        switch (GetKeyPress())
-        {
-        case '1':
-            Clear();
-            GUI::Specific::AddNewMacro::Run();
-            break;
-
-        case '2':
-            Clear();
-            GUI::Specific::ViewSavedMacros::Run();
-            break;
-        }
+        // Log("MMC By Rarksy / ski");
+        // Log("");
+        // Log("Choose An Option");
+        // Log("");
+        // Log('1', ": ", "Add New Macro");
+        // Log('2', ": ", "View Saved Macro's");
+        //
+        // switch (GetKeyPress())
+        // {
+        // case '1':
+        //     Clear();
+        //     GUI::Specific::AddNewMacro::Run();
+        //     break;
+        //
+        // case '2':
+        //     Clear();
+        //     GUI::Specific::ViewSavedMacros::Run();
+        //     break;
+        // }
     }
     
     return 0;
