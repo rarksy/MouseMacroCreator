@@ -1,7 +1,7 @@
 ﻿#include "../GUI.h"
 #include "../../Menu/Menu.h"
-
 #include <fstream>
+#include <Windows.h>
 
 void GUI::Specific::ViewSavedMacros::Run()
 {
@@ -25,6 +25,12 @@ void GUI::Specific::ViewSavedMacros::Run()
                 MacroAction action;
                 std::istringstream iss(line);
 
+                if (line.empty())
+                    continue;
+                
+                if (line.at(0) == ';')
+                    continue;
+
                 if (MacroCore::IsValidKeyword(line, "SetMousePos"))
                 {
                     action.actionType = MAT_MouseMove;
@@ -38,9 +44,37 @@ void GUI::Specific::ViewSavedMacros::Run()
                 {
                     action.actionType = MAT_Sleep;
                     int sleepAmount;
-                    
+
                     if (iss >> action.keyword >> sleepAmount)
                         action.intArgument = sleepAmount;
+                }
+
+                else if (MacroCore::IsValidKeyword(line, "MouseDown"))
+                {
+                    action.actionType = MAT_MouseDown;
+                    std::string mouseButton;
+
+                    if (iss >> action.keyword >> mouseButton)
+                        action.stringArgument = mouseButton;
+                }
+
+                else if (MacroCore::IsValidKeyword(line, "MouseUp"))
+                {
+                    action.actionType = MAT_MouseUp;
+                    std::string mouseButton;
+
+                    if (iss >> action.keyword >> mouseButton)
+                        action.stringArgument = mouseButton;
+                }
+
+                else if (MacroCore::IsValidKeyword(line, "KeyDown") ||
+                    MacroCore::IsValidKeyword(line, "KeyUp"))
+                {
+                    action.actionType = MAT_KeyDown;
+                    char key;
+
+                    if (iss >> action.keyword >> key)
+                        action.intArgument = VkKeyScanW(key);
                 }
 
 
@@ -48,9 +82,10 @@ void GUI::Specific::ViewSavedMacros::Run()
                 {
                     std::string invalidKeyword;
                     iss >> invalidKeyword;
-                    
-                    Menu::Log("Invalid Keyword ( ", invalidKeyword, " ) Found On Line ( ", lineIndex, " )");
-                    RunMacro::quitMacro = true;
+
+                    Menu::Log(entry.path().filename().string(), ": Invalid Keyword ( ", invalidKeyword,
+                              " ) Found On Line ( ", lineIndex, " )");
+                    macro.hasError = true;
                 }
 
                 lineIndex++;
@@ -64,25 +99,24 @@ void GUI::Specific::ViewSavedMacros::Run()
         macro.name = entry.path().filename().string();
         macro.id = macroIndex;
         macroIndex++;
-        
+
         AllMacros.push_back(macro);
     }
 
     for (auto& macro : AllMacros)
         Menu::Log(macro.id, ": ", macro.name);
 
-    char keyPressed = -1;
-    while (char key = _getch())
-    {
-        if (std::isdigit(key))
-        {
-            keyPressed = key;
-            break;
-        }
-    }
+    char option;
+    ZeroMemory(&option, sizeof option);
 
-    //char option = Menu::GetKeyPress(); // not getting user input after first time
-    int optionIndex = keyPressed - '1';
 
-    RunMacro::Run(AllMacros.at(optionIndex)); // crash
+GetMacroChoice:
+
+    Menu::GetKeyPress(option); // not getting user input after first time
+    int optionIndex = option - '1';
+
+    if (optionIndex >= 0 && optionIndex < AllMacros.size())
+        RunMacro::Run(AllMacros.at(optionIndex));
+    else
+        goto GetMacroChoice;
 }

@@ -17,19 +17,16 @@ namespace Menu
         system("cls");
     }
 
-    inline char GetKeyPress()
+    inline void GetKeyPress(char& storedChar)
     {
-        char keyPressed = -1;
         while (char key = _getch())
         {
             if (std::isdigit(key))
             {
-                keyPressed = key;
+                storedChar = key;
                 break;
             }
         }
-
-        return keyPressed;
     }
 }
 

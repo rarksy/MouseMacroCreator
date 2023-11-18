@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "../Macro/Macro.h"
 
-
-
 namespace GUI
 {
     char GetInput();

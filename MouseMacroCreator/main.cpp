@@ -5,11 +5,7 @@
 // ability to run / open in text editor / delete macro
 
 #include <filesystem>
-#include <conio.h>
-#include <functional>
 #include <Windows.h>
-#include <string>
-
 #include "Menu/Menu.h"
 #include "GUI's/GUI.h"
 
