@@ -37,6 +37,6 @@ Usage: `MouseDown <button>`
 
 ## MouseUp
 - Releases a mouse button previously pressed by `MouseDown`  
-Usage: `MouseUp <button>  
+Usage: `MouseUp <button>`  
 > [!TIP]
 > For list of supported mouse buttons, look to `MouseDown`  
