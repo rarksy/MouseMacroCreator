@@ -9,8 +9,8 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 > All commands are to be seperated and written on new lines
 
 > [!TIP]
-> Empty lines are supported for code cleaning  
-> Comments may be added by writing `;` at the beginning 
+> Empty lines are supported for code cleaning.  
+> Comments may be added by writing `;` at the beginning.  
 
 ## Keywords
 
