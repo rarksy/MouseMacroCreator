@@ -1,6 +1,10 @@
 # MouseMacroCreator
 A simple macro / scripting language and interpreter primarily used for simulating mouse and keyboard actions, this is solely being developed to increase my skills in various areas of C++
 
+# Getting Started
+Head over to the releases page and download the latest interpreter binary.  
+Upon extracting and opening, the interpreter will create a new folder titled `Macros`, this is where you will place any macros you create
+
 # Documentation 📖
 
 ## Info
