@@ -1,8 +1,7 @@
 
-// console interface
-// save via file
-// list all saved files as executable macros
-// ability to run / open in text editor / delete macro
+//t0d0
+// add documentation
+// add modifier key support to KeyDown/Up
 
 #include <filesystem>
 #include <Windows.h>

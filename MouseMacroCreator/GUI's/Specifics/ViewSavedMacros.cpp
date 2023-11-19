@@ -22,74 +22,30 @@ void GUI::Specific::ViewSavedMacros::Run()
             int lineIndex = 1;
             while (std::getline(file, line))
             {
-                MacroAction action;
                 std::istringstream iss(line);
 
                 if (line.empty())
                     continue;
-                
-                if (line.at(0) == ';')
+
+                if (line.at(line.find_first_not_of(' ')) == ';')
                     continue;
 
-                if (MacroCore::IsValidKeyword(line, "SetMousePos"))
-                {
-                    action.actionType = MAT_MouseMove;
-                    std::pair<int, int> pos;
+                MacroAction action = MacroCore::ProcessAction(iss, line);
 
-                    if (iss >> action.keyword >> pos.first >> pos.second)
-                        action.pairArgument = pos;
-                }
-
-                else if (MacroCore::IsValidKeyword(line, "Sleep"))
-                {
-                    action.actionType = MAT_Sleep;
-                    int sleepAmount;
-
-                    if (iss >> action.keyword >> sleepAmount)
-                        action.intArgument = sleepAmount;
-                }
-
-                else if (MacroCore::IsValidKeyword(line, "MouseDown"))
-                {
-                    action.actionType = MAT_MouseDown;
-                    std::string mouseButton;
-
-                    if (iss >> action.keyword >> mouseButton)
-                        action.stringArgument = mouseButton;
-                }
-
-                else if (MacroCore::IsValidKeyword(line, "MouseUp"))
-                {
-                    action.actionType = MAT_MouseUp;
-                    std::string mouseButton;
-
-                    if (iss >> action.keyword >> mouseButton)
-                        action.stringArgument = mouseButton;
-                }
-
-                else if (MacroCore::IsValidKeyword(line, "KeyDown") ||
-                    MacroCore::IsValidKeyword(line, "KeyUp"))
-                {
-                    action.actionType = MAT_KeyDown;
-                    char key;
-
-                    if (iss >> action.keyword >> key)
-                        action.intArgument = VkKeyScanW(key);
-                }
-
-
-                else
+                if (action.keyword.empty())
                 {
                     std::string invalidKeyword;
                     iss >> invalidKeyword;
 
                     Menu::Log(entry.path().filename().string(), ": Invalid Keyword ( ", invalidKeyword,
-                              " ) Found On Line ( ", lineIndex, " )");
+                    " ) Found On Line ( ", lineIndex, " )");
                     macro.hasError = true;
+                    continue;
                 }
 
-                lineIndex++;
                 macro.actions.push_back(action);
+
+                lineIndex++;
             }
         }
 
@@ -112,7 +68,7 @@ void GUI::Specific::ViewSavedMacros::Run()
 
 GetMacroChoice:
 
-    Menu::GetKeyPress(option); // not getting user input after first time
+    Menu::GetKeyPress(option);
     int optionIndex = option - '1';
 
     if (optionIndex >= 0 && optionIndex < AllMacros.size())

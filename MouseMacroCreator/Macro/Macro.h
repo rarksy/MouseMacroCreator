@@ -14,7 +14,9 @@ enum MacroActionType
 
     MAT_MouseMove,
 
-    MAT_Sleep
+    MAT_Sleep,
+
+    MAT_Parameter
 };
 
 struct MacroAction
@@ -41,24 +43,28 @@ namespace MacroCore
 {
     bool IsValidKeyword(std::string line, std::string keyword);
 
+    MacroAction ProcessAction(std::istringstream& iss, std::string line);
 
-    inline std::vector<std::string> validKeywords{
+
+    inline std::vector<Macro> allMacros;
+    
+    inline std::vector<std::pair<std::string, MacroActionType>> validKeywords{
 
         // Function Keywords
-        "SetMousePos",
+        {"SetMousePos", MAT_MouseMove},
 
-        "Sleep",
+        {"Sleep", MAT_Sleep},
+
+        {"MouseDown", MAT_MouseDown},
+        {"MouseUp", MAT_MouseUp},
+
+        {"KeyDown", MAT_KeyDown},
+        {"KeyUp", MAT_KeyUp},
+
+        {"Left", MAT_Parameter},
+        {"Right", MAT_Parameter},
+        {"Middle", MAT_Parameter},
         
-        "MouseDown",
-        "MouseUp",
-
-        "KeyDown",
-        "KeyUp",
-
-        // Mouse Button Keywords
-        "Left",
-        "Right",
-        "Middle",
     };
 
 
@@ -135,8 +141,6 @@ namespace MacroCore
         {"F10", VK_F10},
         {"F11", VK_F11},
         {"F12", VK_F12}
-
-
     };
 }
 
