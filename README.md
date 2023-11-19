@@ -28,7 +28,7 @@ Usage: `Sleep <number>`
 - Presses down a specified mouse button  
 Usage: `MouseDown <button>`
 > [!TIP]
-> Currently supported mouse buttons:
+> Currently supported mouse buttons:  
 > `Left` ( Mouse 1 )  
 > `Right` ( Mouse 2 )  
 > `Middle` ( Mouse 3 )  
