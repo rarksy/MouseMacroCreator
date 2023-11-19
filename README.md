@@ -39,4 +39,16 @@ Usage: `MouseDown <button>`
 - Releases a mouse button previously pressed by `MouseDown`  
 Usage: `MouseUp <button>`  
 > [!TIP]
-> For list of supported mouse buttons, look to `MouseDown`  
+> For list of supported mouse buttons, look to `MouseDown`
+
+## KeyDown
+- Presses down a specified key on the keyboard  
+Usage: `KeyDown <key>`  
+> [!TIP]
+> Keys such as [F1 - F24] and modifier keys aren't yet supported
+
+## KeyUp
+- Releases a key previously pressed by `KeyDown`  
+Usage: `KeyUp <key>`  
+> [!TIP]
+> For list of unsupported keys, look to `KeyDown`  
