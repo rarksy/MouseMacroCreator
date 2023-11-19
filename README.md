@@ -36,4 +36,7 @@ Usage: `MouseDown <button>`
 > `Middle` ( Mouse 3 )
 
 ## MouseUp
-- Releases a mouse button previously pressed by [MouseDown](#mousedown)
+- Releases a mouse button previously pressed by `MouseDown`  
+Usage: `MouseUp <button>  
+> [!TIP]
+> For list of supported mouse buttons, look to `MouseDown`  
