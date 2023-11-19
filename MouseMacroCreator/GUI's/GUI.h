@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <filesystem>
+
 #include "../Macro/Macro.h"
 
 namespace GUI
@@ -17,17 +19,14 @@ namespace GUI
     namespace Specific
     {
 
-        namespace ViewSavedMacros
+        namespace GetSavedMacros
         {
-            void Run();
+            std::vector<std::filesystem::path> Get();
         }
 
-        namespace RunMacro
+        namespace LogSavedMacros
         {
-            void Run(Macro macro);
-
-            inline bool macroRunning = false;
-            inline bool quitMacro = false;
+            void Run(std::vector<std::filesystem::path> macroPaths);
         }
     }
 }

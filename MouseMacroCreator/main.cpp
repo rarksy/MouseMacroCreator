@@ -1,6 +1,4 @@
-
 //t0d0
-// add documentation
 // add modifier key support to KeyDown/Up
 
 #include <filesystem>
@@ -8,26 +6,43 @@
 #include "Menu/Menu.h"
 #include "GUI's/GUI.h"
 
-using namespace Menu;
-
 int main()
 {
-    // Check For Macro Directory
-    std::string currentPath = std::filesystem::current_path().string();
-    std::filesystem::path macroPath = currentPath + "\\Macros\\";
-
-    if (!exists(macroPath))
     {
-        if (create_directory(macroPath))
-            MessageBoxA(NULL, "Macro Directory Created!", "Notice...", MB_OK);
-    }
+        // Check For Macro Directory
+        std::string currentPath = std::filesystem::current_path().string();
+        std::filesystem::path macroPath = currentPath + "\\Macros\\";
 
-    Global::macroPath = macroPath;
+        if (!exists(macroPath))
+        {
+            if (create_directory(macroPath))
+                MessageBoxA(NULL, "Macro Directory Created!", "Notice...", MB_OK);
+        }
+
+        Global::macroPath = macroPath;
+    }
 
     while (true)
     {
-        GUI::Specific::ViewSavedMacros::Run();
+        auto macroPaths = GUI::Specific::GetSavedMacros::Get();
+        
+        char option;
+        int optionIndex;
+        ZeroMemory(&option, sizeof option);
+
+        GUI::Specific::LogSavedMacros::Run(macroPaths);
+
+        while (option < 1)
+        {
+            Menu::GetKeyPress(option);
+            optionIndex = option - '1';
+
+            if (optionIndex < macroPaths.size() && optionIndex > 0)
+                break;
+        }   
+
+        MacroCore::RunMacro::Run(macroPaths.at(optionIndex));
     }
-    
+
     return 0;
 }

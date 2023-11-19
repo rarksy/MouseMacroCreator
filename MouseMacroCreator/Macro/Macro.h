@@ -3,6 +3,7 @@
 #include <string>
 #include <variant>
 #include <Windows.h>
+#include <filesystem>
 
 enum MacroActionType
 {
@@ -34,16 +35,24 @@ struct Macro
 {
     std::vector<MacroAction> actions;
     std::string name;
-    char id;
 
     bool hasError = false;
 };
 
 namespace MacroCore
 {
+    
     bool IsValidKeyword(std::string line, std::string keyword);
 
     MacroAction ProcessAction(std::istringstream& iss, std::string line);
+
+    namespace RunMacro
+    {
+        void Run(std::filesystem::path path);
+
+        inline bool macroRunning = false;
+        inline bool quitMacro = false;
+    }
 
 
     inline std::vector<Macro> allMacros;

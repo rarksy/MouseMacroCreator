@@ -157,8 +157,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GUI's\GUI.cpp" />
-    <ClCompile Include="GUI's\Specifics\RunMacro.cpp" />
-    <ClCompile Include="GUI's\Specifics\ViewSavedMacros.cpp" />
+    <ClCompile Include="GUI's\Specifics\GetSavedMacros.cpp" />
+    <ClCompile Include="GUI's\Specifics\LogSavedMacros.cpp" />
     <ClCompile Include="Macro\Macro.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
