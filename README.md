@@ -19,4 +19,7 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 Usage: `SetMousePos <x> <y>`
 
 ### Sleep
-- 
+- Creates a delay before executing the next action
+Usage: `Sleep <number>`
+> [!NOTE]
+> Delay number is in milliseconds
