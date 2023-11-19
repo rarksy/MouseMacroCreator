@@ -26,6 +26,7 @@ Usage: `Sleep <number>`
 
 
 ## MouseDown
+#mousedown
 - Presses down a specified mouse button  
 Usage: `MouseDown <button>`
 > [!TIP]
