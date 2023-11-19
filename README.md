@@ -10,7 +10,7 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 
 > [!TIP]
 > Empty lines are supported for code cleaning.  
-> Comments may be added by writing `;` at the beginning.  
+> Comments may be added by writing `;` before any other character on the line.    
 
 ## Keywords
 
