@@ -14,17 +14,17 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 
 ## Keywords
 
-### SetMousePos
+## SetMousePos
 - Sets the mouse's position to a desired location on the screen  
 Usage: `SetMousePos <x> <y>`
 
-### Sleep
+## Sleep
 - Creates a delay before executing the next action  
 Usage: `Sleep <number>`
 > [!NOTE]
 > Delay number is in milliseconds
 
-### MouseDown
+## MouseDown
 - Presses down a specified mouse button  
 Usage: `MouseDown <button>`
 > [!TIP]
