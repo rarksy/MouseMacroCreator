@@ -10,7 +10,7 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 
 > [!TIP]
 > Empty lines are supported for code cleaning.  
-> Comments may be added by writing `;` before any other character on the line.    
+> Comments may be added by writing `;` before any other character on the line  
 
 ## Keywords
 
@@ -19,7 +19,7 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 Usage: `SetMousePos <x> <y>`
 
 ### Sleep
-- Creates a delay before executing the next action.  
+- Creates a delay before executing the next action  
 Usage: `Sleep <number>`
 > [!NOTE]
 > Delay number is in milliseconds
