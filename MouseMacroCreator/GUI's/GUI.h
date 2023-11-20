@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include <filesystem>
 
-#include "../Macro/Macro.h"
-
 namespace GUI
 {
     

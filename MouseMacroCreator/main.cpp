@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Menu/Menu.h"
 #include "GUI's/GUI.h"
+#include "Macro/Macro.h"
 
 int main()
 {

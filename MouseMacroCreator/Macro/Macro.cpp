@@ -1,5 +1,4 @@
 #include "Macro.h"
-#include <sstream>
 #include <algorithm>
 #include <ranges>
 #include <fstream>
@@ -7,7 +6,6 @@
 
 bool MacroCore::EnsureValidKeyword(std::string line, std::string& keyword)
 {
-
     for (const auto& key : validKeywords | std::views::keys)
     {
         if (line.find(key) != std::string::npos)
@@ -42,7 +40,7 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
             return pair.first == keyword;
         });
 
-    
+
     action.actionType = it->second;
 
     const auto actionType = action.actionType;
@@ -72,17 +70,23 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
 
 void MacroCore::ExecuteAction(const MacroAction& action)
 {
+    // Mouse Input
+
     if (action.actionType == MAT_MouseMove)
         MouseInput::SetMousePos::Execute(action);
-
-    else if (action.actionType == MAT_Sleep)
-        ThreadFlow::Sleep::Execute(action);
 
     else if (action.actionType == MAT_MouseDown || action.actionType == MAT_MouseUp)
         MouseInput::MouseDownUp::Execute(action);
 
     else if (action.actionType == MAT_MouseClick)
         MouseInput::MouseClick::Execute(action);
+
+    // Thread Flow
+
+    else if (action.actionType == MAT_Sleep)
+        ThreadFlow::Sleep::Execute(action);
+
+    // Keyboard Input
 
     else if (action.actionType == MAT_KeyDown || action.actionType == MAT_KeyUp)
         KeyboardInput::KeyDownUp::Execute(action);

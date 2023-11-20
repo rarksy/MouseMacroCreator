@@ -1,7 +1,6 @@
 #include "../GUI.h"
 #include "../../Menu/Menu.h"
 #include <fstream>
-#include <Windows.h>
 
 std::vector<std::filesystem::path> GUI::Specific::GetSavedMacros::Get()
 {
