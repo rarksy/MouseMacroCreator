@@ -24,7 +24,7 @@ Usage: `SetMousePos <x> <y>`
 
 ## SetMousePosInterpolated
 - Sets the mouse's position to a desired location on the screen at a determined speed  
-Usage: SetMousePosInterpolated <x> <y> <speed>  
+Usage: `SetMousePosInterpolated <x> <y> <speed>`  
 > [!NOTE]
 > The lower the number entered for speed, the faster the mouse will reach the desired position.  
 
