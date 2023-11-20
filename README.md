@@ -49,7 +49,7 @@ Usage: `MouseUp <button>`
 - Presses down a specified key on the keyboard  
 Usage: `KeyDown <key>`  
 > [!TIP]
-> Keys such as [F1 - F24] and modifier keys aren't yet supported
+> 
 
 ## KeyUp
 - Releases a key previously pressed by `KeyDown`  
