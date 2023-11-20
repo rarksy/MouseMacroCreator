@@ -156,9 +156,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GUI's\GUI.cpp" />
     <ClCompile Include="GUI's\Specifics\GetSavedMacros.cpp" />
     <ClCompile Include="GUI's\Specifics\LogSavedMacros.cpp" />
+    <ClCompile Include="Macro\Features\KeyboardInput.cpp" />
+    <ClCompile Include="Macro\Features\MouseInput.cpp" />
+    <ClCompile Include="Macro\Features\ThreadFlow.cpp" />
     <ClCompile Include="Macro\Macro.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

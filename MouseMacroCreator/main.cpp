@@ -1,6 +1,3 @@
-//t0d0
-// add modifier key support to KeyDown/Up
-
 #include <filesystem>
 #include <Windows.h>
 #include "Menu/Menu.h"
