@@ -24,6 +24,7 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
 {
     std::string keyword;
 
+    // Make Sure Keyword Exists In Our Array
     if (!EnsureValidKeyword(line, keyword))
         return {};
 
@@ -41,9 +42,12 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
             return pair.first == keyword;
         });
 
-    action.actionType = it->second; //crash
+    
+    action.actionType = it->second;
 
     const auto actionType = action.actionType;
+
+    // Process According to MacroActionType (MAT_)
 
     if (actionType == MAT_MouseMove)
         MouseInput::SetMousePos::Process(iss, action);
@@ -59,6 +63,9 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
 
     else if (actionType == MAT_KeyDown || actionType == MAT_KeyUp)
         KeyboardInput::KeyDownUp::Process(iss, action);
+
+    else if (actionType == MAT_KeyPress)
+        KeyboardInput::KeyPress::Process(iss, action);
 
     return action;
 }
@@ -79,6 +86,9 @@ void MacroCore::ExecuteAction(const MacroAction& action)
 
     else if (action.actionType == MAT_KeyDown || action.actionType == MAT_KeyUp)
         KeyboardInput::KeyDownUp::Execute(action);
+
+    else if (action.actionType == MAT_KeyPress)
+        KeyboardInput::KeyPress::Execute(action);
 }
 
 void MacroCore::RunMacro::Run(const std::filesystem::path& path)
@@ -143,6 +153,9 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
     Menu::Log("F8 To Toggle Script");
     Menu::Log("F9 To Terminate Script");
 
+    // Start Action Execution Loop On New Thread
+    // This Keeps Our GUI Loop Free And Active
+
     std::thread macroThread([&macro]
     {
         while (!quitMacro)
@@ -155,6 +168,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
                 if (!macroRunning)
                     break;
 
+                // Execute The Macro Action
                 ExecuteAction(action);
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(1));

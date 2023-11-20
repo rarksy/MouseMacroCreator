@@ -84,6 +84,12 @@ namespace MacroCore
             void Process(std::istringstream& iss, MacroAction& action);
             void Execute(const MacroAction& action);   
         }
+
+        namespace KeyPress
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
     }
 
     namespace RunMacro
@@ -102,7 +108,6 @@ namespace MacroCore
         {"Sleep", MAT_Sleep},
 
         {"MouseClick", MAT_MouseClick},
-
         {"MouseDown", MAT_MouseDown},
         {"MouseUp", MAT_MouseUp},
 

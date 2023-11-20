@@ -34,3 +34,18 @@ void MacroCore::KeyboardInput::KeyDownUp::Execute(const MacroAction& action)
 
     SendInput(1, &input, sizeof INPUT);
 }
+
+void MacroCore::KeyboardInput::KeyPress::Process(std::istringstream& iss, MacroAction& action)
+{
+    KeyDownUp::Process(iss, action);
+}
+
+void MacroCore::KeyboardInput::KeyPress::Execute(const MacroAction& action)
+{
+    auto actionCopy = action;
+    actionCopy.actionType = MAT_KeyDown;
+    KeyDownUp::Execute(actionCopy);
+    actionCopy.actionType = MAT_KeyUp;
+    KeyDownUp::Execute(actionCopy);
+    
+}

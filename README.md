@@ -53,10 +53,13 @@ Usage: `MouseClick <button>`
 - Presses down a specified key on the keyboard  
 Usage: `KeyDown <key>`  
 > [!TIP]
-> 
 
 ## KeyUp
 - Releases a key previously pressed by `KeyDown`  
 Usage: `KeyUp <key>`  
 > [!TIP]
 > For list of unsupported keys, look to `KeyDown`  
+
+## KeyPress
+- Performs both a KeyDown AND KeyUp Action  
+Usage: `KeyPress <key>`
