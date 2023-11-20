@@ -5,20 +5,10 @@
 #include <fstream>
 #include "../Menu/Menu.h"
 
-bool MacroCore::IsValidKeyword(std::string line, std::string keyword)
+bool MacroCore::EnsureValidKeyword(std::string line, std::string& keyword)
 {
-    return line.find(keyword) != std::string::npos;
-}
 
-bool EnsureValidKeyword(std::string line, std::string& keyword)
-{
-    if (line.empty())
-        return false;
-
-    if (line.find_first_not_of(' ') == ';')
-        return false;
-
-    for (const auto& key : MacroCore::validKeywords | std::views::keys)
+    for (const auto& key : validKeywords | std::views::keys)
     {
         if (line.find(key) != std::string::npos)
         {
@@ -27,7 +17,7 @@ bool EnsureValidKeyword(std::string line, std::string& keyword)
         }
     }
 
-    return true;
+    return false;
 }
 
 MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
@@ -51,62 +41,24 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
             return pair.first == keyword;
         });
 
-    action.actionType = it->second;
+    action.actionType = it->second; //crash
 
-    const auto actionType2 = action.actionType;
+    const auto actionType = action.actionType;
 
-    if (actionType2 == MAT_MouseMove)
-    {
-        std::pair<int, int> pos;
+    if (actionType == MAT_MouseMove)
+        MouseInput::SetMousePos::Process(iss, action);
 
-        if (iss >> action.keyword >> pos.first >> pos.second)
-            action.pairArgument = pos;
-    }
+    else if (actionType == MAT_Sleep)
+        ThreadFlow::Sleep::Process(iss, action);
 
-    else if (actionType2 == MAT_Sleep)
-    {
-        int sleepAmount;
+    else if (actionType == MAT_MouseDown || actionType == MAT_MouseUp)
+        MouseInput::MouseDownUp::Process(iss, action);
 
-        if (iss >> action.keyword >> sleepAmount)
-            action.intArgument = sleepAmount;
-    }
+    else if (actionType == MAT_MouseClick)
+        MouseInput::MouseClick::Process(iss, action);
 
-    else if (actionType2 == MAT_MouseDown)
-    {
-        std::string mouseButton;
-
-        if (iss >> action.keyword >> mouseButton)
-            action.stringArgument = mouseButton;
-    }
-
-    else if (actionType2 == MAT_MouseUp)
-    {
-        std::string mouseButton;
-
-        if (iss >> action.keyword >> mouseButton)
-            action.stringArgument = mouseButton;
-    }
-
-    else if (actionType2 == MAT_KeyDown || actionType2 == MAT_KeyUp)
-    {
-        std::string key;
-
-        if (iss >> action.keyword >> key)
-        {
-            if (key.size() == 1)
-                action.intArgument = VkKeyScan(key.at(0));
-
-            else
-            {
-                auto it = std::find_if(validKeys.begin(), validKeys.end(), [&key](const auto& _key)
-                {
-                    return _key.first == key;
-                });
-
-                action.intArgument = it->second;
-            }
-        }
-    }
+    else if (actionType == MAT_KeyDown || actionType == MAT_KeyUp)
+        KeyboardInput::KeyDownUp::Process(iss, action);
 
     return action;
 }
@@ -114,74 +66,19 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
 void MacroCore::ExecuteAction(const MacroAction& action)
 {
     if (action.actionType == MAT_MouseMove)
-    {
-        SetCursorPos(action.pairArgument.first, action.pairArgument.second);
-    }
+        MouseInput::SetMousePos::Execute(action);
 
     else if (action.actionType == MAT_Sleep)
-    {
-        Sleep(action.intArgument);
-    }
+        ThreadFlow::Sleep::Execute(action);
 
-    else if (action.actionType == MAT_MouseDown)
-    {
-        int button;
+    else if (action.actionType == MAT_MouseDown || action.actionType == MAT_MouseUp)
+        MouseInput::MouseDownUp::Execute(action);
 
-        if (action.stringArgument == "Left")
-            button = MOUSEEVENTF_LEFTDOWN;
+    else if (action.actionType == MAT_MouseClick)
+        MouseInput::MouseClick::Execute(action);
 
-        else if (action.stringArgument == "Right")
-            button = MOUSEEVENTF_RIGHTDOWN;
-
-        else if (action.stringArgument == "Middle")
-            button = MOUSEEVENTF_MIDDLEDOWN;
-
-        mouse_event(button, 0, 0, 0, 0);
-    }
-
-    else if (action.actionType == MAT_MouseUp)
-    {
-        int button;
-
-        if (action.stringArgument == "Left")
-            button = MOUSEEVENTF_LEFTUP;
-
-        else if (action.stringArgument == "Right")
-            button = MOUSEEVENTF_RIGHTUP;
-
-        else if (action.stringArgument == "Middle")
-            button = MOUSEEVENTF_MIDDLEUP;
-
-        mouse_event(button, 0, 0, 0, 0);
-    }
-
-    else if (action.actionType == MAT_KeyDown)
-    {
-        INPUT input;
-        input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;
-        input.ki.time = 0;
-        input.ki.dwExtraInfo = 0;
-
-        input.ki.wVk = action.intArgument;
-        input.ki.dwFlags = 0;
-
-        SendInput(1, &input, sizeof INPUT);
-    }
-
-    else if (action.actionType == MAT_KeyUp)
-    {
-        INPUT input;
-        input.type = INPUT_KEYBOARD;
-        input.ki.wScan = 0;
-        input.ki.time = 0;
-        input.ki.dwExtraInfo = 0;
-
-        input.ki.wVk = action.intArgument;
-        input.ki.dwFlags = KEYEVENTF_KEYUP;
-
-        SendInput(1, &input, sizeof INPUT);
-    }
+    else if (action.actionType == MAT_KeyDown || action.actionType == MAT_KeyUp)
+        KeyboardInput::KeyDownUp::Execute(action);
 }
 
 void MacroCore::RunMacro::Run(const std::filesystem::path& path)
@@ -196,27 +93,41 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 
     while (std::getline(file, line))
     {
+        // Read Next Line
         std::istringstream iss(line);
 
+        // Empty Line
+        if (line.empty())
+            continue;
+
+        // Check If Line Is Comment
+        if (line[line.find_first_not_of(' ')] == ';')
+            continue;
+
+        // Setup Action
         MacroAction action = ProcessAction(iss, line);
 
+        // Check If Action Setup Failed
         if (action.keyword.empty())
         {
             std::string invalidKeyword;
             iss >> invalidKeyword;
 
+            // Log
             Menu::Log(
                 path.filename(),
-                ": Invalid Keyword (",
+                ": Invalid Keyword ( ",
                 invalidKeyword,
-                " ) Found On Line (",
+                " ) Found On Line ( ",
                 lineIndex, " )"
             );
 
+            // Mark The Macro As Having An Error
             macro.hasError = true;
             continue;
         }
 
+        // Add The Action To Our List To Execute Later
         macro.actions.push_back(action);
 
         lineIndex++;

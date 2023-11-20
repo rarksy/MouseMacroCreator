@@ -7,9 +7,12 @@
 
 enum MacroActionType
 {
+    MAT_KeyPress,
     MAT_KeyDown,
     MAT_KeyUp,
 
+    MAT_MouseClick,
+    
     MAT_MouseDown,
     MAT_MouseUp,
 
@@ -17,7 +20,6 @@ enum MacroActionType
 
     MAT_Sleep,
 
-    MAT_Parameter
 };
 
 struct MacroAction
@@ -41,12 +43,48 @@ struct Macro
 
 namespace MacroCore
 {
-    
-    bool IsValidKeyword(std::string line, std::string keyword);
-
+    bool EnsureValidKeyword(std::string line, std::string& keyword);
     MacroAction ProcessAction(std::istringstream& iss, std::string line);
-
     void ExecuteAction(const MacroAction& action);
+
+    namespace ThreadFlow
+    {
+        namespace Sleep
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+    }
+
+    namespace MouseInput
+    {
+        namespace SetMousePos
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+
+        namespace MouseDownUp
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action); 
+        }
+
+        namespace MouseClick
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action); 
+        }
+    }
+
+    namespace KeyboardInput
+    {
+        namespace KeyDownUp
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+    }
 
     namespace RunMacro
     {
@@ -56,9 +94,6 @@ namespace MacroCore
         inline bool quitMacro = false;
     }
 
-
-    inline std::vector<Macro> allMacros;
-    
     inline std::vector<std::pair<std::string, MacroActionType>> validKeywords{
 
         // Function Keywords
@@ -66,26 +101,28 @@ namespace MacroCore
 
         {"Sleep", MAT_Sleep},
 
+        {"MouseClick", MAT_MouseClick},
+
         {"MouseDown", MAT_MouseDown},
         {"MouseUp", MAT_MouseUp},
 
+        {"KeyPress", MAT_KeyPress},
         {"KeyDown", MAT_KeyDown},
         {"KeyUp", MAT_KeyUp},
-
-        {"Left", MAT_Parameter},
-        {"Right", MAT_Parameter},
-        {"Middle", MAT_Parameter},
-        
-        
     };
 
+    inline std::vector<std::pair<std::string, std::pair<int, int>>> validMouseButtons {
 
+        {"Left", {MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP}},
+        {"Right", {MOUSEEVENTF_RIGHTDOWN, MOUSEEVENTF_RIGHTUP}},
+        {"Middle", {MOUSEEVENTF_MIDDLEDOWN, MOUSEEVENTF_MIDDLEUP}},
+
+    };
     inline std::vector<std::pair<std::string, int>> validKeys{
 
         // Key Documentation:
-        // The Keys Quoted In "" Are The Keys Used In Your Macro File
+        // The Keys Quoted In " " Are The Keys Used In Your Macro File
         // Example: KeyDown Shift
-        // Example: KeyDown Control
         // Example: KeyDown F1
         // Example: KeyDown A
         // Example: KeyDown 1
@@ -119,7 +156,7 @@ namespace MacroCore
         {"y", 'y'},
         {"z", 'z'},
 
-        
+
         // Numbers
         {"0", '0'},
         {"1", '1'},
@@ -164,6 +201,3 @@ namespace MacroCore
         {"F12", VK_F12}
     };
 }
-
-
-
