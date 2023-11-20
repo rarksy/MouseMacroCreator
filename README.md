@@ -65,5 +65,5 @@ Usage: `KeyUp <key>`
 Usage: `KeyPress <key>`
 > [!NOTE]
 > Keyboard input DOES detect key case  
-> Example: KeyDown A would simulate a Shift KeyDown along with A
-> Example: KeyDown a would NOT simulate a Shift Keydown along with a
+> Example: KeyDown A would simulate a Shift KeyDown along with A  
+> Example: KeyDown a would NOT simulate a Shift Keydown along with a  
