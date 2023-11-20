@@ -7,7 +7,12 @@ void MacroCore::KeyboardInput::KeyDownUp::Process(std::istringstream& iss, Macro
     if (iss >> action.keyword >> key)
     {
         if (key.size() == 1)
+        {
+            if (isupper(key[0]))
+                action.keyPressToUpper = true;
+
             action.intArgument = VkKeyScan(key.at(0));
+        }
 
         else
         {
@@ -28,9 +33,14 @@ void MacroCore::KeyboardInput::KeyDownUp::Execute(const MacroAction& action)
     input.ki.wScan = 0;
     input.ki.time = 0;
     input.ki.dwExtraInfo = 0;
-
     input.ki.wVk = action.intArgument;
     input.ki.dwFlags = action.actionType == MAT_KeyUp ? KEYEVENTF_KEYUP : 0;
+    
+    INPUT shiftInput = input;
+    shiftInput.ki.wVk = VK_SHIFT;
+
+    if (action.keyPressToUpper)
+        SendInput(1, &shiftInput, sizeof INPUT);
 
     SendInput(1, &input, sizeof INPUT);
 }

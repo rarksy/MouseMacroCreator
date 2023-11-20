@@ -31,6 +31,8 @@ struct MacroAction
     char charArgument;
     std::pair<int, int> pairArgument;
     std::string stringArgument;
+
+    bool keyPressToUpper = false;
 };
 
 struct Macro
