@@ -45,6 +45,10 @@ Usage: `MouseUp <button>`
 > [!TIP]
 > For list of supported mouse buttons, look to `MouseDown`
 
+## MouseClick
+- Performs both a MouseDown AND MouseUp action  
+Usage: `MouseClick <button>`
+
 ## KeyDown
 - Presses down a specified key on the keyboard  
 Usage: `KeyDown <key>`  
