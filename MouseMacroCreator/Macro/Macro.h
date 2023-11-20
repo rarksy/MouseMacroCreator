@@ -46,9 +46,11 @@ namespace MacroCore
 
     MacroAction ProcessAction(std::istringstream& iss, std::string line);
 
+    void ExecuteAction(const MacroAction& action);
+
     namespace RunMacro
     {
-        void Run(std::filesystem::path path);
+        void Run(const std::filesystem::path& path);
 
         inline bool macroRunning = false;
         inline bool quitMacro = false;
@@ -74,10 +76,20 @@ namespace MacroCore
         {"Right", MAT_Parameter},
         {"Middle", MAT_Parameter},
         
+        
     };
 
 
-    inline std::vector<std::pair<std::string, std::variant<char, int>>> validKeys{
+    inline std::vector<std::pair<std::string, int>> validKeys{
+
+        // Key Documentation:
+        // The Keys Quoted In "" Are The Keys Used In Your Macro File
+        // Example: KeyDown Shift
+        // Example: KeyDown Control
+        // Example: KeyDown F1
+        // Example: KeyDown A
+        // Example: KeyDown 1
+        // Example: KeyDown .
 
         // Letters
         {"a", 'a'},
