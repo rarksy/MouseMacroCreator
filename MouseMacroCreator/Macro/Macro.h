@@ -11,11 +11,10 @@ enum MacroActionType
     MAT_KeyUp,
 
     MAT_MouseClick,
-    
     MAT_MouseDown,
     MAT_MouseUp,
-
-    MAT_MouseMove,
+    MAT_SetMousePos,
+    MAT_SetMousePosInterpolated,
 
     MAT_Sleep,
 
@@ -65,6 +64,12 @@ namespace MacroCore
             void Execute(const MacroAction& action);   
         }
 
+        namespace SetMousePosInterpolated
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+
         namespace MouseDownUp
         {
             void Process(std::istringstream& iss, MacroAction& action);
@@ -104,7 +109,8 @@ namespace MacroCore
     inline std::vector<std::pair<std::string, MacroActionType>> validKeywords{
 
         // Function Keywords
-        {"SetMousePos", MAT_MouseMove},
+        {"SetMousePos", MAT_SetMousePos},
+        {"SetMousePosInterpolated", MAT_SetMousePosInterpolated},
 
         {"Sleep", MAT_Sleep},
 

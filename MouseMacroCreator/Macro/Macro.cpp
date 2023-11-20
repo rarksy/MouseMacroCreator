@@ -2,15 +2,26 @@
 #include <algorithm>
 #include <ranges>
 #include <fstream>
+#include <regex>
+
 #include "../Menu/Menu.h"
 
 bool MacroCore::EnsureValidKeyword(std::string line, std::string& keyword)
 {
     for (const auto& key : validKeywords | std::views::keys)
     {
-        if (line.find(key) != std::string::npos)
+        // if (line.find(key) != std::string::npos)
+        // {
+        //     keyword = key;
+        //     return true;
+        // }
+        std::string pattern = "\\b" + key + "\\b";
+        if (std::regex_search(line, std::regex(pattern)))
         {
             keyword = key;
+#ifdef _DEBUG
+            Menu::Log("Found Keyword: ", keyword);
+#endif
             return true;
         }
     }
@@ -47,11 +58,20 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
 
     // Process According to MacroActionType (MAT_)
 
-    if (actionType == MAT_MouseMove)
+    // Mouse Input
+    
+    if (actionType == MAT_SetMousePos)
         MouseInput::SetMousePos::Process(iss, action);
+
+    else if (action.actionType == MAT_SetMousePosInterpolated)
+        MouseInput::SetMousePosInterpolated::Process(iss, action);
+
+    // Thread Flow
 
     else if (actionType == MAT_Sleep)
         ThreadFlow::Sleep::Process(iss, action);
+
+    // Keyboard Input
 
     else if (actionType == MAT_MouseDown || actionType == MAT_MouseUp)
         MouseInput::MouseDownUp::Process(iss, action);
@@ -72,8 +92,11 @@ void MacroCore::ExecuteAction(const MacroAction& action)
 {
     // Mouse Input
 
-    if (action.actionType == MAT_MouseMove)
+    if (action.actionType == MAT_SetMousePos)
         MouseInput::SetMousePos::Execute(action);
+
+    else if (action.actionType == MAT_SetMousePosInterpolated)
+        MouseInput::SetMousePosInterpolated::Execute(action);
 
     else if (action.actionType == MAT_MouseDown || action.actionType == MAT_MouseUp)
         MouseInput::MouseDownUp::Execute(action);

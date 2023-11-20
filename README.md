@@ -22,6 +22,12 @@ Upon extracting and opening, the interpreter will create a new folder titled `Ma
 - Sets the mouse's position to a desired location on the screen  
 Usage: `SetMousePos <x> <y>`
 
+## SetMousePosInterpolated
+- Sets the mouse's position to a desired location on the screen at a determined speed  
+Usage: SetMousePosInterpolated <x> <y> <speed>  
+> [!NOTE]
+> The lower the number entered for speed, the faster the mouse will reach the desired position.  
+
 ## Sleep
 - Creates a delay before executing the next action  
 Usage: `Sleep <number>`
