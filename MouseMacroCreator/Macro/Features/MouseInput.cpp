@@ -79,7 +79,7 @@ void MacroCore::MouseInput::MouseDownUp::Execute(const MacroAction& action)
 {
     int button;
 
-    const auto it = std::find_if(validMouseButtons.begin(), validMouseButtons.end(), [&action](const auto& pair)
+    const auto it = std::ranges::find_if(validMouseButtons, [&action](const auto& pair)
     {
         return pair.first == action.stringArgument;
     });

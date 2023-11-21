@@ -43,8 +43,8 @@ struct Macro
 
 namespace MacroCore
 {
-    bool EnsureValidKeyword(std::string line, std::string& keyword);
-    MacroAction ProcessAction(std::istringstream& iss, std::string line);
+    bool EnsureValidKeyword(const std::string& line, std::string& keyword);
+    MacroAction ProcessAction(std::istringstream& iss, const std::string& line);
     void ExecuteAction(const MacroAction& action);
 
     namespace ThreadFlow

@@ -1,20 +1,14 @@
 #include "Macro.h"
-#include <algorithm>
 #include <ranges>
 #include <fstream>
 #include <regex>
 
 #include "../Menu/Menu.h"
 
-bool MacroCore::EnsureValidKeyword(std::string line, std::string& keyword)
+bool MacroCore::EnsureValidKeyword(const std::string& line, std::string& keyword)
 {
     for (const auto& key : validKeywords | std::views::keys)
     {
-        // if (line.find(key) != std::string::npos)
-        // {
-        //     keyword = key;
-        //     return true;
-        // }
         std::string pattern = "\\b" + key + "\\b";
         if (std::regex_search(line, std::regex(pattern)))
         {
@@ -29,7 +23,7 @@ bool MacroCore::EnsureValidKeyword(std::string line, std::string& keyword)
     return false;
 }
 
-MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
+MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string& line)
 {
     std::string keyword;
 
@@ -43,15 +37,13 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, std::string line)
     action.keyword = keyword;
 
     // Find The Keyword In Our Vector To Get The Associated Action Type
-    auto it = std::find_if(
-        validKeywords.begin(),
-        validKeywords.end(),
+    const auto it = std::ranges::find_if(
+        validKeywords,
         [&keyword](const auto& pair)
-        {
+    {
             return pair.first == keyword;
-        });
-
-
+    });
+    
     action.actionType = it->second;
 
     const auto actionType = action.actionType;
