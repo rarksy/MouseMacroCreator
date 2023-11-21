@@ -10,5 +10,5 @@ void MacroCore::ThreadFlow::Sleep::Process(std::istringstream& iss, MacroAction&
 
 void MacroCore::ThreadFlow::Sleep::Execute(const MacroAction& action)
 {
-    ::Sleep(action.intArgument);
+    std::this_thread::sleep_for(std::chrono::milliseconds(action.intArgument));
 }
