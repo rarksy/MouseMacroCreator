@@ -23,12 +23,17 @@ int main()
     while (true)
     {
         auto macroPaths = GUI::Specific::GetSavedMacros::Get();
-        
+
         char option;
         int optionIndex;
         ZeroMemory(&option, sizeof option);
 
-        GUI::Specific::LogSavedMacros::Run(macroPaths);
+        if (!GUI::Specific::LogSavedMacros::Run(macroPaths))
+        {
+            std::this_thread::sleep_for(std::chrono::seconds(20));
+            break;
+        }
+
 
         while (option < 1)
         {
@@ -37,7 +42,7 @@ int main()
 
             if (optionIndex < macroPaths.size() && optionIndex > 0)
                 break;
-        }   
+        }
 
         MacroCore::RunMacro::Run(macroPaths.at(optionIndex));
     }

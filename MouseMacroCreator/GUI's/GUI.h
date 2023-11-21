@@ -14,7 +14,7 @@ namespace GUI
 
         namespace LogSavedMacros
         {
-            void Run(std::vector<std::filesystem::path> macroPaths);
+            bool Run(std::vector<std::filesystem::path> macroPaths);
         }
     }
 }
