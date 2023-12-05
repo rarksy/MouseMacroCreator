@@ -73,6 +73,12 @@ void MacroCore::MouseInput::MouseDownUp::Process(std::istringstream& iss, MacroA
 
     if (iss >> action.keyword >> mouseButton)
         action.stringArgument = mouseButton;
+
+    if (action.stringArgument.find("Thumb1") != std::string::npos)
+        action.intArgument = XBUTTON1;
+
+    if (action.stringArgument.find("Thumb2") != std::string::npos)
+        action.intArgument = XBUTTON2;
 }
 
 void MacroCore::MouseInput::MouseDownUp::Execute(const MacroAction& action)
@@ -87,7 +93,7 @@ void MacroCore::MouseInput::MouseDownUp::Execute(const MacroAction& action)
     if (it != validMouseButtons.end())
         button = action.actionType == MAT_MouseDown ? it->second.first : it->second.second;
 
-    mouse_event(button, 0, 0, 0, 0);
+    mouse_event(button, 0, 0, action.intArgument, 0);
 }
 
 void MacroCore::MouseInput::MouseClick::Process(std::istringstream& iss, MacroAction& action)
