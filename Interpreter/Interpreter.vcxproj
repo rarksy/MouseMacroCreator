@@ -172,6 +172,7 @@
     <ClInclude Include="Menu\Menu.h" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\DebugMacro.mmc" />
     <Content Include="..\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
