@@ -33,13 +33,13 @@ Usage: `SetToggleType <type>`
 
 ## SetToggleKey
 - Sets the key used to toggle the macro on and off  
-Usage: `SetToggleKey <key>`
-- > [!NOTE]
-  > Running a script without this keyword will set the default toggle key to F8  
+Usage: `SetToggleKey <key>`  
+> [!NOTE]
+> Running a script without this keyword will set the default toggle key to F8  
 
 ## SetTerminateKey
 - Sets the key used to terminate/quit the macro 
-Usage: `SetTerminateKey <key>`
+Usage: `SetTerminateKey <key>`  
 > [!NOTE]
 > Running a script without this keyword will set the default toggle key to F9  
 
