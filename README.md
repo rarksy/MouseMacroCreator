@@ -21,6 +21,19 @@ Upon extracting and opening, the interpreter will create a new folder titled `Ma
 
 ## Keywords
 
+## SetToggleKey
+- Sets the key used to toggle the macro on and off  
+Usage: `SetToggleKey <key>`
+- > [!NOTE]
+  > Running a script without this keyword will set the default toggle key to F8  
+
+## SetTerminateKey
+- Sets the key used to terminate/quit the macro 
+Usage: `SetTerminateKey <key>`
+- - > [!NOTE]
+> Running a script without this keyword will set the default toggle key to F9  
+
+
 ## SetMousePos
 - Sets the mouse's position to a desired location on the screen  
 Usage: `SetMousePos <x> <y>`
