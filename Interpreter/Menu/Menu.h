@@ -8,7 +8,9 @@ namespace Menu
     template <typename... Args>
     void Log(Args&&... args)
     {
+#ifdef _DEBUG
         (std::cout << ... << std::forward<Args>(args)) << std::endl;
+#endif
     }
 
     inline void Clear()
