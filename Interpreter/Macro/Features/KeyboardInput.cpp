@@ -16,7 +16,7 @@ void MacroCore::KeyboardInput::KeyDownUp::Process(std::istringstream& iss, Macro
 
         else
         {
-            auto it = std::ranges::find_if(validKeys, [&key](const auto& _key)
+            const auto it = std::ranges::find_if(validKeys, [&key](const auto& _key)
             {
                return _key.first == key; 
             });
