@@ -36,3 +36,19 @@ void MacroCore::MacroState::SetStateKey::Process(std::istringstream& iss, int& s
         }
     }
 }
+
+void MacroCore::MacroState::SetToggleType::Process(std::istringstream& iss, Macro& macro)
+{
+    std::string keyword;
+    std::string toggleType;
+
+    if (iss >> keyword >> toggleType)
+    {
+        const auto it = std::ranges::find_if(validToggleTypes, [&toggleType](const auto& type)
+        {
+            return type.first == toggleType;
+        });
+
+        macro.toggleType = it->second;
+    }
+}

@@ -77,6 +77,9 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
     // Macro State
     else if (actionType == MAT_SetToggleKey || actionType == MAT_SetTerminateKey)
         MacroState::SetStateKey::Process(iss, actionType == MAT_SetToggleKey ? macro.toggleKey : macro.terminateKey);
+
+    else if (actionType == MAT_SetToggleType)
+        MacroState::SetToggleType::Process(iss, macro);
     
     return action;
 }
@@ -152,7 +155,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 
             // Mark The Macro As Having An Error
             macro.hasError = true;
-            continue;
+            continue;   
         }
 
         // Add The Action To Our List To Execute Later
@@ -197,10 +200,35 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
             Menu::Log("Terminating Macro...");
         }
 
-        if (GetAsyncKeyState(macro.toggleKey) & 1)
+        switch (macro.toggleType)
         {
-            macroRunning = !macroRunning;
-            Menu::Log("Macro ", macroRunning ? "Enabled" : "Disabled");
+        case MTT_Toggle:
+
+            if (GetAsyncKeyState(macro.toggleKey) & 1)
+                macroRunning = !macroRunning;
+            break;
+
+        case MTT_HoldOn:
+            if (GetAsyncKeyState(macro.toggleKey))
+                macroRunning = true;
+            else if (macroRunning)
+                macroRunning = false;
+            break;
+
+        case MTT_HoldOff:
+            if (!GetAsyncKeyState(macro.toggleKey))
+                macroRunning = true;
+            else if (macroRunning)
+                macroRunning = false;
+            break;
+
+        case MTT_RunOnce:
+
+            if (macroRunning)
+                macroRunning = false;
+
+            if (GetAsyncKeyState(macro.toggleKey) & 1)
+                macroRunning = true;
         }
     }
 

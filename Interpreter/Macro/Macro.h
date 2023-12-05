@@ -20,6 +20,15 @@ enum MacroActionType
 
     MAT_SetToggleKey,
     MAT_SetTerminateKey,
+    MAT_SetToggleType,
+};
+
+enum MacroToggleType
+{
+    MTT_Toggle,
+    MTT_HoldOn,
+    MTT_HoldOff,
+    MTT_RunOnce
 };
 
 struct MacroAction
@@ -42,6 +51,8 @@ struct Macro
 
     int toggleKey = VK_F8;
     int terminateKey = VK_F9;
+
+    MacroToggleType toggleType = MTT_Toggle;
     
     bool hasError = false;
 };
@@ -109,6 +120,11 @@ namespace MacroCore
         {
             void Process(std::istringstream& iss, int& stateKey);
         }
+
+        namespace SetToggleType
+        {
+            void Process(std::istringstream&iss, Macro& macro);
+        }
     }
 
     namespace RunMacro
@@ -139,6 +155,16 @@ namespace MacroCore
 
         {"SetToggleKey", MAT_SetToggleKey},
         {"SetTerminateKey", MAT_SetTerminateKey},
+
+        {"SetToggleType", MAT_SetToggleType},
+    };
+
+    inline std::vector<std::pair<std::string, MacroToggleType>> validToggleTypes {
+
+        {"Toggle", MTT_Toggle},
+        {"HoldOn", MTT_HoldOn},
+        {"HoldOff", MTT_HoldOff},
+        {"RunOnce", MTT_RunOnce},
     };
 
     inline std::vector<std::pair<std::string, std::pair<int, int>>> validMouseButtons {
