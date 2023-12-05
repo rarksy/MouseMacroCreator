@@ -21,6 +21,16 @@ Upon extracting and opening, the interpreter will create a new folder titled `Ma
 
 ## Keywords
 
+## SetToggleType
+- Sets the method used to toggle the macro on or off  
+Usage: `SetToggleType <type>`  
+> [!IMPORTANT]
+> All toggle types include:  
+> `Toggle`: Toggles the macro on/off with a single keypress  
+> `RunOnce`: Toggles the macro on, runs the script once, then turns off again  
+> `HoldOn`: Toggles the macro on while the toggle key is held down  
+> `HoldOff`: Toggles the macro on while the toggle key is **NOT** held down  
+
 ## SetToggleKey
 - Sets the key used to toggle the macro on and off  
 Usage: `SetToggleKey <key>`
@@ -30,7 +40,7 @@ Usage: `SetToggleKey <key>`
 ## SetTerminateKey
 - Sets the key used to terminate/quit the macro 
 Usage: `SetTerminateKey <key>`
-- - > [!NOTE]
+> [!NOTE]
 > Running a script without this keyword will set the default toggle key to F9  
 
 
