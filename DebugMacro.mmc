@@ -1,2 +1,8 @@
 ; This Macro Is Used When Debugging / Running The Application Through The IDE
 ; DO NOT DELETE
+
+SetToggleType RunOnce
+SetToggleKey F2
+
+SetMousePos 50 50
+Sleep 2000

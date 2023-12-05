@@ -10,6 +10,9 @@ Upon extracting and opening, the interpreter will create a new folder titled `Ma
 
 # Documentation 📖
 
+> [!TIP]
+> A Sublime Text syntax format is available [here](https://cdn.discordapp.com/attachments/1109714013773910026/1181598748967710782/mmc.sublime-syntax?ex=6581a496&is=656f2f96&hm=fd430b047acc54a1f632893d5648c153e96b4ca7386d477fa4f7a26a79c3e9e9&)  
+
 ## Info
 
 > [!IMPORTANT]
