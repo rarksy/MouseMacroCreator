@@ -18,6 +18,8 @@ enum MacroActionType
 
     MAT_Sleep,
 
+    MAT_SetToggleKey,
+    MAT_SetTerminateKey,
 };
 
 struct MacroAction
@@ -25,7 +27,7 @@ struct MacroAction
     MacroActionType actionType;
     std::string keyword;
 
-    int intArgument;
+    int intArgument = 0;
     char charArgument;
     std::pair<int, int> pairArgument;
     std::string stringArgument;
@@ -38,13 +40,16 @@ struct Macro
     std::vector<MacroAction> actions;
     std::string name;
 
+    int toggleKey = VK_F8;
+    int terminateKey = VK_F9;
+    
     bool hasError = false;
 };
 
 namespace MacroCore
 {
     bool EnsureValidKeyword(const std::string& line, std::string& keyword);
-    MacroAction ProcessAction(std::istringstream& iss, const std::string& line);
+    MacroAction ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro);
     void ExecuteAction(const MacroAction& action);
 
     namespace ThreadFlow
@@ -98,6 +103,14 @@ namespace MacroCore
         }
     }
 
+    namespace MacroState
+    {
+        namespace SetStateKey
+        {
+            void Process(std::istringstream& iss, int& stateKey);
+        }
+    }
+
     namespace RunMacro
     {
         void Run(const std::filesystem::path& path);
@@ -105,7 +118,7 @@ namespace MacroCore
         inline bool macroRunning = false;
         inline bool quitMacro = false;
     }
-
+    
     inline std::vector<std::pair<std::string, MacroActionType>> validKeywords{
 
         // Function Keywords
@@ -121,6 +134,11 @@ namespace MacroCore
         {"KeyPress", MAT_KeyPress},
         {"KeyDown", MAT_KeyDown},
         {"KeyUp", MAT_KeyUp},
+
+        // Macro State Keywords
+
+        {"SetToggleKey", MAT_SetToggleKey},
+        {"SetTerminateKey", MAT_SetTerminateKey},
     };
 
     inline std::vector<std::pair<std::string, std::pair<int, int>>> validMouseButtons {
@@ -128,8 +146,11 @@ namespace MacroCore
         {"Left", {MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP}},
         {"Right", {MOUSEEVENTF_RIGHTDOWN, MOUSEEVENTF_RIGHTUP}},
         {"Middle", {MOUSEEVENTF_MIDDLEDOWN, MOUSEEVENTF_MIDDLEUP}},
+        {"Thumb1", {MOUSEEVENTF_XDOWN, MOUSEEVENTF_XUP}},
+        {"Thumb2", {MOUSEEVENTF_XDOWN, MOUSEEVENTF_XUP}}
 
     };
+    
     inline std::vector<std::pair<std::string, int>> validKeys{
 
         // Key Documentation:

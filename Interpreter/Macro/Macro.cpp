@@ -13,9 +13,9 @@ bool MacroCore::EnsureValidKeyword(const std::string& line, std::string& keyword
         if (std::regex_search(line, std::regex(pattern)))
         {
             keyword = key;
-#ifdef _DEBUG
+            
             Menu::Log("Found Keyword: ", keyword);
-#endif
+            
             return true;
         }
     }
@@ -23,7 +23,7 @@ bool MacroCore::EnsureValidKeyword(const std::string& line, std::string& keyword
     return false;
 }
 
-MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string& line)
+MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro)
 {
     std::string keyword;
 
@@ -51,7 +51,6 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
     // Process According to MacroActionType (MAT_)
 
     // Mouse Input
-    
     if (actionType == MAT_SetMousePos)
         MouseInput::SetMousePos::Process(iss, action);
 
@@ -59,12 +58,10 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
         MouseInput::SetMousePosInterpolated::Process(iss, action);
 
     // Thread Flow
-
     else if (actionType == MAT_Sleep)
         ThreadFlow::Sleep::Process(iss, action);
 
     // Keyboard Input
-
     else if (actionType == MAT_MouseDown || actionType == MAT_MouseUp)
         MouseInput::MouseDownUp::Process(iss, action);
 
@@ -77,13 +74,16 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
     else if (actionType == MAT_KeyPress)
         KeyboardInput::KeyPress::Process(iss, action);
 
+    // Macro State
+    else if (actionType == MAT_SetToggleKey || actionType == MAT_SetTerminateKey)
+        MacroState::SetStateKey::Process(iss, actionType == MAT_SetToggleKey ? macro.toggleKey : macro.terminateKey);
+    
     return action;
 }
 
 void MacroCore::ExecuteAction(const MacroAction& action)
 {
     // Mouse Input
-
     if (action.actionType == MAT_SetMousePos)
         MouseInput::SetMousePos::Execute(action);
 
@@ -97,12 +97,10 @@ void MacroCore::ExecuteAction(const MacroAction& action)
         MouseInput::MouseClick::Execute(action);
 
     // Thread Flow
-
     else if (action.actionType == MAT_Sleep)
         ThreadFlow::Sleep::Execute(action);
 
     // Keyboard Input
-
     else if (action.actionType == MAT_KeyDown || action.actionType == MAT_KeyUp)
         KeyboardInput::KeyDownUp::Execute(action);
 
@@ -112,6 +110,7 @@ void MacroCore::ExecuteAction(const MacroAction& action)
 
 void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 {
+    
     std::ifstream file(path);
     std::string line;
     int lineIndex = 1;
@@ -134,7 +133,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
             continue;
 
         // Setup Action
-        MacroAction action = ProcessAction(iss, line);
+        MacroAction action = ProcessAction(iss, line, macro);
 
         // Check If Action Setup Failed
         if (action.keyword.empty())
@@ -167,11 +166,6 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 
     quitMacro = false;
 
-    Menu::Log("Executing ", macro.name);
-    Menu::Log("Script Disabled By Default");
-    Menu::Log("F8 To Toggle Script");
-    Menu::Log("F9 To Terminate Script");
-
     // Start Action Execution Loop On New Thread
     // This Keeps Our GUI Loop Free And Active
 
@@ -196,13 +190,14 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 
     while (!quitMacro)
     {
-        if (GetAsyncKeyState(VK_F9) & 1)
+        if (GetAsyncKeyState(macro.terminateKey) & 1)
         {
             quitMacro = true;
+            macroRunning = false;
             Menu::Log("Terminating Macro...");
         }
 
-        if (GetAsyncKeyState(VK_F8) & 1)
+        if (GetAsyncKeyState(macro.toggleKey) & 1)
         {
             macroRunning = !macroRunning;
             Menu::Log("Macro ", macroRunning ? "Enabled" : "Disabled");
