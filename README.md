@@ -85,6 +85,7 @@ Usage: `MouseClick <button>`
 - Presses down a specified key on the keyboard  
 Usage: `KeyDown <key>`  
 > [!TIP]
+> All keys supported, if you find one that ISNT, report it so it can be fixed  
 
 ## KeyUp
 - Releases a key previously pressed by `KeyDown`  
