@@ -12,23 +12,6 @@ namespace Menu
         (std::cout << ... << std::forward<Args>(args)) << std::endl;
 #endif
     }
-
-    inline void Clear()
-    {
-        system("cls");
-    }
-
-    inline void GetKeyPress(char& storedChar)
-    {
-        while (char key = _getch())
-        {
-            if (std::isdigit(key))
-            {
-                storedChar = key;
-                break;
-            }
-        }
-    }
 }
 
 namespace Global
