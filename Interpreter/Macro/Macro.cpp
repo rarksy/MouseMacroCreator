@@ -117,19 +117,21 @@ void MacroCore::ExecuteAction(const MacroAction& action)
         ThreadFlow::Log::Execute(action);
 }
 
-void MacroCore::RunMacro::Run(const std::filesystem::path& path)
+bool MacroCore::RunMacro::Run(const std::filesystem::path& path)
 {
-    
-    std::ifstream file(path);
-    std::string line;
-    int lineIndex = 1;
-
+    // Setting Up Our Macro
     Macro macro;
-
     macro.name = path.filename().string();
 
+    // Setting Up Our File Reading
+    std::ifstream file(path);
+    std::string line;
+    
     while (std::getline(file, line))
     {
+        // Used For Showing Error Line
+        static int lineIndex = 1;
+        
         // Read Next Line
         std::istringstream iss(line);
 
@@ -161,7 +163,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 
             // Mark The Macro As Having An Error
             macro.hasError = true;
-            continue;   
+            break;   
         }
 
         // Add The Action To Our List To Execute Later
@@ -171,7 +173,10 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
     }
 
     if (macro.hasError)
-        return;
+    {
+        _getch();
+        return false;   
+    }
 
     quitMacro = false;
 
@@ -239,4 +244,5 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
     }
 
     macroThread.join();
+    return true;
 }
