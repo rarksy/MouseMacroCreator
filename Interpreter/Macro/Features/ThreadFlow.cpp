@@ -1,4 +1,5 @@
 #include "../Macro.h"
+#include "../../Menu/Menu.h"
 
 void MacroCore::ThreadFlow::Sleep::Process(std::istringstream& iss, MacroAction& action)
 {
@@ -13,42 +14,15 @@ void MacroCore::ThreadFlow::Sleep::Execute(const MacroAction& action)
     std::this_thread::sleep_for(std::chrono::milliseconds(action.intArgument));
 }
 
-void MacroCore::MacroState::SetStateKey::Process(std::istringstream& iss, int& stateKey)
+void MacroCore::ThreadFlow::Log::Process(std::istringstream& iss, MacroAction& action)
 {
-    std::string keyword;
-    std::string toggleKey;
+    std::string logContent;
 
-    if (iss >> keyword >> toggleKey)
-    {
-        if (toggleKey.size() == 1)
-        {
-            stateKey = VkKeyScan(toggleKey.at(0));
-        }
-
-        else
-        {
-            const auto it = std::ranges::find_if(validKeys, [&toggleKey](const auto& _key)
-            {
-                return _key.first == toggleKey;
-            });
-
-            stateKey = it->second;
-        }
-    }
+    if (iss >> action.keyword >> logContent)
+        action.stringArgument = logContent;
 }
 
-void MacroCore::MacroState::SetToggleType::Process(std::istringstream& iss, Macro& macro)
+void MacroCore::ThreadFlow::Log::Execute(const MacroAction& action)
 {
-    std::string keyword;
-    std::string toggleType;
-
-    if (iss >> keyword >> toggleType)
-    {
-        const auto it = std::ranges::find_if(validToggleTypes, [&toggleType](const auto& type)
-        {
-            return type.first == toggleType;
-        });
-
-        macro.toggleType = it->second;
-    }
+    Menu::Log(action.stringArgument);
 }

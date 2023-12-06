@@ -69,6 +69,7 @@ namespace MacroCore
         {"SetMousePosInterpolated", MAT_SetMousePosInterpolated},
 
         {"Sleep", MAT_Sleep},
+        {"Log", MAT_Log},
 
         {"MouseClick", MAT_MouseClick},
         {"MouseDown", MAT_MouseDown},
@@ -155,6 +156,12 @@ namespace MacroCore
     namespace ThreadFlow
     {
         namespace Sleep
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+
+        namespace Log
         {
             void Process(std::istringstream& iss, MacroAction& action);
             void Execute(const MacroAction& action);   
