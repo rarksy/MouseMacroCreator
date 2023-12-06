@@ -158,16 +158,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GUI's\Specifics\GetSavedMacros.cpp" />
-    <ClCompile Include="GUI's\Specifics\LogSavedMacros.cpp" />
     <ClCompile Include="Macro\Features\KeyboardInput.cpp" />
+    <ClCompile Include="Macro\Features\MacroState.cpp" />
     <ClCompile Include="Macro\Features\MouseInput.cpp" />
     <ClCompile Include="Macro\Features\ThreadFlow.cpp" />
     <ClCompile Include="Macro\Macro.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GUI's\GUI.h" />
     <ClInclude Include="Macro\Macro.h" />
     <ClInclude Include="Menu\Menu.h" />
   </ItemGroup>
