@@ -48,7 +48,7 @@ struct MacroAction
 
     bool hasError = false;
 };
-
+ 
 struct Macro
 {
     std::vector<MacroAction> actions;
@@ -239,7 +239,7 @@ namespace MacroCore
 
         namespace ExecuteMacro
         {
-            void Run(Macro& macro);
+            void Run(const Macro& macro);
         }
     }
 }

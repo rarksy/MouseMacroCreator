@@ -198,7 +198,7 @@ bool MacroCore::RunMacro::ProcessMacro::Run(const std::filesystem::path& path, M
     return true;
 }
 
-void MacroCore::RunMacro::ExecuteMacro::Run(Macro& macro)
+void MacroCore::RunMacro::ExecuteMacro::Run(const Macro& macro)
 {
     while (!quitMacro)
     {
