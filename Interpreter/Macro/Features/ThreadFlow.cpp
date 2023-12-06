@@ -17,9 +17,9 @@ void MacroCore::ThreadFlow::Sleep::Execute(const MacroAction& action)
 void MacroCore::ThreadFlow::Log::Process(std::istringstream& iss, MacroAction& action)
 {
     std::string logContent;
-
-    if (iss >> action.keyword >> logContent)
-        action.stringArgument = logContent;
+    
+    if (iss >> action.keyword)
+        std::getline(iss >> std::ws, action.stringArgument);
 }
 
 void MacroCore::ThreadFlow::Log::Execute(const MacroAction& action)

@@ -57,10 +57,6 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
     else if (action.actionType == MAT_SetMousePosInterpolated)
         MouseInput::SetMousePosInterpolated::Process(iss, action);
 
-    // Thread Flow
-    else if (actionType == MAT_Sleep)
-        ThreadFlow::Sleep::Process(iss, action);
-
     // Keyboard Input
     else if (actionType == MAT_MouseDown || actionType == MAT_MouseUp)
         MouseInput::MouseDownUp::Process(iss, action);
@@ -80,6 +76,13 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
 
     else if (actionType == MAT_SetToggleType)
         MacroState::SetToggleType::Process(iss, macro);
+
+    // Thread Flow
+    else if (actionType == MAT_Sleep)
+        ThreadFlow::Sleep::Process(iss, action);
+
+    else if (actionType == MAT_Log)
+        ThreadFlow::Log::Process(iss, action);
     
     return action;
 }
@@ -99,16 +102,19 @@ void MacroCore::ExecuteAction(const MacroAction& action)
     else if (action.actionType == MAT_MouseClick)
         MouseInput::MouseClick::Execute(action);
 
-    // Thread Flow
-    else if (action.actionType == MAT_Sleep)
-        ThreadFlow::Sleep::Execute(action);
-
     // Keyboard Input
     else if (action.actionType == MAT_KeyDown || action.actionType == MAT_KeyUp)
         KeyboardInput::KeyDownUp::Execute(action);
 
     else if (action.actionType == MAT_KeyPress)
         KeyboardInput::KeyPress::Execute(action);
+
+    // Thread Flow
+    else if (action.actionType == MAT_Sleep)
+        ThreadFlow::Sleep::Execute(action);
+
+    else if (action.actionType == MAT_Log)
+        ThreadFlow::Log::Execute(action);
 }
 
 void MacroCore::RunMacro::Run(const std::filesystem::path& path)

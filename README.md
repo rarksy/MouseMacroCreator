@@ -63,6 +63,9 @@ Usage: `Sleep <number>`
 > [!NOTE]
 > Delay number is in milliseconds
 
+## Log
+- Logs content to the console  
+Usage: `Log <message>`  
 
 ## MouseDown
 #mousedown
