@@ -4,7 +4,7 @@ void MacroCore::KeyboardInput::KeyDownUp::Process(std::istringstream& iss, Macro
 {
     std::string key;
 
-    if (iss >> action.keyword >> key)
+    if (iss >> key)
     {
         if (key.size() == 1)
         {

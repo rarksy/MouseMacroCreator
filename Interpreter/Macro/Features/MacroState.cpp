@@ -2,10 +2,9 @@
 
 void MacroCore::MacroState::SetStateKey::Process(std::istringstream& iss, int& stateKey)
 {
-    std::string keyword;
     std::string toggleKey;
 
-    if (iss >> keyword >> toggleKey)
+    if (iss >> toggleKey)
     {
         if (toggleKey.size() == 1)
         {
@@ -26,10 +25,9 @@ void MacroCore::MacroState::SetStateKey::Process(std::istringstream& iss, int& s
 
 void MacroCore::MacroState::SetToggleType::Process(std::istringstream& iss, Macro& macro)
 {
-    std::string keyword;
     std::string toggleType;
 
-    if (iss >> keyword >> toggleType)
+    if (iss >> toggleType)
     {
         const auto it = std::ranges::find_if(validToggleTypes, [&toggleType](const auto& type)
         {

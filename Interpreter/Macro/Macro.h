@@ -45,6 +45,8 @@ struct MacroAction
     std::string stringArgument;
 
     bool keyPressToUpper = false;
+
+    bool hasError = false;
 };
 
 struct Macro
@@ -149,7 +151,7 @@ namespace MacroCore
     };
     
     template<typename T>
-    bool EnsureValidKeyword(const std::string& line, std::string& keyword, std::vector<std::pair<std::string, T>> vec);
+    bool EnsureValidKeyword(std::string& keyword, std::vector<std::pair<std::string, T>> vec);
     MacroAction ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro);
     void ExecuteAction(const MacroAction& action);
 
@@ -222,12 +224,23 @@ namespace MacroCore
             void Process(std::istringstream&iss, Macro& macro);
         }
     }
-
+    
     namespace RunMacro
     {
         bool Run(const std::filesystem::path& path);
 
         inline bool macroRunning = false;
         inline bool quitMacro = false;
+
+        namespace ProcessMacro
+        {
+            bool Run(const std::filesystem::path& path, Macro& macro);
+        }
+
+        namespace ExecuteMacro
+        {
+            void Run(Macro& macro);
+        }
     }
 }
+

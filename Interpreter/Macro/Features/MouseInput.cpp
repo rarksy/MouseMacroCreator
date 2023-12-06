@@ -5,7 +5,7 @@ void MacroCore::MouseInput::SetMousePos::Process(std::istringstream& iss, MacroA
 {
     std::pair<int, int> pos;
 
-    if (iss >> action.keyword >> pos.first >> pos.second)
+    if (iss >> pos.first >> pos.second)
         action.pairArgument = pos;
 }
 
@@ -19,7 +19,7 @@ void MacroCore::MouseInput::SetMousePosInterpolated::Process(std::istringstream&
     std::pair<int, int> pos;
     int timeToComplete;
 
-    if (iss >> action.keyword >> pos.first >> pos.second >> timeToComplete)
+    if (iss >> pos.first >> pos.second >> timeToComplete)
     {
         action.pairArgument = pos;
         action.intArgument = timeToComplete;
@@ -61,9 +61,8 @@ void MacroCore::MouseInput::SetMousePosInterpolated::Execute(const MacroAction& 
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
 
     if (elapsedTime < totalDuration)
-    {
         std::this_thread::sleep_for(std::chrono::milliseconds(totalDuration - elapsedTime));
-    }
+    
 }
 
 
@@ -71,7 +70,7 @@ void MacroCore::MouseInput::MouseDownUp::Process(std::istringstream& iss, MacroA
 {
     std::string mouseButton;
 
-    if (iss >> action.keyword >> mouseButton)
+    if (iss >> mouseButton)
         action.stringArgument = mouseButton;
 
     if (action.stringArgument.find("Thumb1") != std::string::npos)

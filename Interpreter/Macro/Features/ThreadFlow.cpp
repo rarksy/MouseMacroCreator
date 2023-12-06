@@ -5,7 +5,7 @@ void MacroCore::ThreadFlow::Sleep::Process(std::istringstream& iss, MacroAction&
 {
     int sleepAmount;
 
-    if (iss >> action.keyword >> sleepAmount)
+    if (iss >> sleepAmount)
         action.intArgument = sleepAmount;
 }
 
@@ -18,8 +18,7 @@ void MacroCore::ThreadFlow::Log::Process(std::istringstream& iss, MacroAction& a
 {
     std::string logContent;
     
-    if (iss >> action.keyword)
-        std::getline(iss >> std::ws, action.stringArgument);
+    std::getline(iss >> std::ws, action.stringArgument);
 }
 
 void MacroCore::ThreadFlow::Log::Execute(const MacroAction& action)
