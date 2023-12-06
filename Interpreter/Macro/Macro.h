@@ -35,6 +35,7 @@ struct MacroAction
 {
     MacroActionType actionType;
     std::string keyword;
+    std::vector<std::string> parameters;
 
     int intArgument = 0;
     char charArgument;
@@ -59,7 +60,8 @@ struct Macro
 
 namespace MacroCore
 {
-    bool EnsureValidKeyword(const std::string& line, std::string& keyword);
+    template<typename T>
+    bool EnsureValidKeyword(const std::string& line, std::string& keyword, std::vector<std::pair<std::string, T>> vec);
     MacroAction ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro);
     void ExecuteAction(const MacroAction& action);
 

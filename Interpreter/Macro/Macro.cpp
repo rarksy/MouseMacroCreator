@@ -5,17 +5,18 @@
 
 #include "../Menu/Menu.h"
 
-bool MacroCore::EnsureValidKeyword(const std::string& line, std::string& keyword)
+template<typename T>
+bool MacroCore::EnsureValidKeyword(const std::string& line, std::string& keyword, std::vector<std::pair<std::string, T>> vec)
 {
-    for (const auto& key : validKeywords | std::views::keys)
+
+    for (const auto& key : vec | std::views::keys)
     {
         std::string pattern = "\\b" + key + "\\b";
+
         if (std::regex_search(line, std::regex(pattern)))
         {
             keyword = key;
-            
             Menu::Log("Found Keyword: ", keyword);
-            
             return true;
         }
     }
@@ -25,15 +26,14 @@ bool MacroCore::EnsureValidKeyword(const std::string& line, std::string& keyword
 
 MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro)
 {
+    // Temp Keyword Variable
     std::string keyword;
 
     // Make Sure Keyword Exists In Our Array
-    if (!EnsureValidKeyword(line, keyword))
+    if (!EnsureValidKeyword(line, keyword, validKeywords))
         return {};
-
+    
     MacroAction action;
-
-    // Apply The Keyword
     action.keyword = keyword;
 
     // Find The Keyword In Our Vector To Get The Associated Action Type
@@ -43,9 +43,9 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
     {
             return pair.first == keyword;
     });
-    
-    action.actionType = it->second;
 
+    // Apply Appropriate Action Type
+    action.actionType = it->second;
     const auto actionType = action.actionType;
 
     // Process According to MacroActionType (MAT_)
@@ -181,7 +181,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
 
             for (const auto& action : macro.actions)
             {
-                if (!macroRunning)
+                if (!macroRunning && macro.toggleType != MTT_RunOnce)
                     break;
 
                 // Execute The Macro Action
@@ -222,7 +222,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
                 macroRunning = false;
             break;
 
-        case MTT_RunOnce:
+        case MTT_RunOnce: // only runs the first action
 
             if (macroRunning)
                 macroRunning = false;

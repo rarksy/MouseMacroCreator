@@ -6,3 +6,4 @@ SetToggleKey F2
 
 SetMousePos 50 50
 Sleep 2000
+SetMousePos 50 100
