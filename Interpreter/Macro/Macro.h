@@ -46,6 +46,8 @@ struct MacroAction
 
     bool keyPressToUpper = false;
 
+
+    bool isExecutable = true;
     bool hasError = false;
 };
  
@@ -152,7 +154,7 @@ namespace MacroCore
     
     template<typename T>
     bool EnsureValidKeyword(std::string& keyword, std::vector<std::pair<std::string, T>> vec);
-    MacroAction ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro);
+    MacroAction ProcessAction(std::istringstream& iss, Macro& macro);
     void ExecuteAction(const MacroAction& action);
 
     namespace ThreadFlow

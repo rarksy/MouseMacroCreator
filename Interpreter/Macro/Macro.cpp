@@ -22,7 +22,7 @@ bool MacroCore::EnsureValidKeyword(std::string& keyword, std::vector<std::pair<s
     return false;
 }
 
-MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro)
+MacroAction MacroCore::ProcessAction(std::istringstream& iss, Macro& macro)
 {
     MacroAction action;
 
@@ -68,10 +68,16 @@ MacroAction MacroCore::ProcessAction(std::istringstream& iss, const std::string&
 
         // Macro State
     else if (actionType == MAT_SetToggleKey || actionType == MAT_SetTerminateKey)
+    {
         MacroState::SetStateKey::Process(iss, actionType == MAT_SetToggleKey ? macro.toggleKey : macro.terminateKey);
+        action.isExecutable = false;
+    }
 
     else if (actionType == MAT_SetToggleType)
+    {
         MacroState::SetToggleType::Process(iss, macro);
+        action.isExecutable = false;
+    }
 
         // Thread Flow
     else if (actionType == MAT_Sleep)
@@ -172,7 +178,7 @@ bool MacroCore::RunMacro::ProcessMacro::Run(const std::filesystem::path& path, M
             continue;
 
         // Setup Action
-        MacroAction action = ProcessAction(iss, line, macro);
+        MacroAction action = ProcessAction(iss, macro);
 
         // Check If Action Setup Failed
         if (action.hasError)
@@ -190,7 +196,9 @@ bool MacroCore::RunMacro::ProcessMacro::Run(const std::filesystem::path& path, M
         }
 
         // Add The Action To Our List To Execute Later
-        macro.actions.push_back(action);
+
+        if (action.isExecutable)
+            macro.actions.push_back(action);
 
         lineIndex++;
     }
@@ -232,14 +240,14 @@ void MacroCore::ExecuteAction(const MacroAction& action)
     else if (action.actionType == MAT_MouseClick)
         MouseInput::MouseClick::Execute(action);
 
-    // Keyboard Input
+        // Keyboard Input
     else if (action.actionType == MAT_KeyDown || action.actionType == MAT_KeyUp)
         KeyboardInput::KeyDownUp::Execute(action);
 
     else if (action.actionType == MAT_KeyPress)
         KeyboardInput::KeyPress::Execute(action);
 
-    // Thread Flow
+        // Thread Flow
     else if (action.actionType == MAT_Sleep)
         ThreadFlow::Sleep::Execute(action);
 

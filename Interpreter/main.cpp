@@ -30,9 +30,9 @@ int main(int argc, char* argv[])
     }
     
     std::wstring consoleTitle = L"MMC | " + macroPath.filename().wstring();
-    
     SetConsoleTitle(consoleTitle.c_str());
-    // Running The Macro...
+    
+    // Run The Macro
     // Since A Bool Returns 0 (false) On Failure And 1 (true) On Success
     // But 0 Generally Means Success In A Programs Lifetime We Use ! To Flip The Values
     return !MacroCore::RunMacro::Run(macroPath);
