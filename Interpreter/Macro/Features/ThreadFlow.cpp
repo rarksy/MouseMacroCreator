@@ -24,5 +24,5 @@ void MacroCore::ThreadFlow::Log::Process(std::istringstream& iss, MacroAction& a
 
 void MacroCore::ThreadFlow::Log::Execute(const MacroAction& action)
 {
-    Menu::Log(action.stringArgument);
+    std::cout << action.stringArgument << std::endl;
 }
