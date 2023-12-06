@@ -178,10 +178,8 @@ bool MacroCore::RunMacro::Run(const std::filesystem::path& path)
         return false;   
     }
 
-    quitMacro = false;
-
     // Start Action Execution Loop On New Thread
-    // This Keeps Our GUI Loop Free And Active
+    // This Keeps Our Main Thread Free And Active
 
     std::thread macroThread([&macro]
     {
@@ -208,7 +206,8 @@ bool MacroCore::RunMacro::Run(const std::filesystem::path& path)
         {
             quitMacro = true;
             macroRunning = false;
-            Menu::Log("Terminating Macro...");
+            macroThread.join();
+            return true;
         }
 
         switch (macro.toggleType)

@@ -2,8 +2,6 @@
 #include "Menu/Menu.h"
 #include "Macro/Macro.h"
 
-//todo: implement valid argument check
-
 int main(int argc, char* argv[])
 {
     // Checking If The User Attached A File
