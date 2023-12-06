@@ -18,6 +18,8 @@ enum MacroActionType
 
     MAT_Sleep,
 
+    MAT_Log,
+
     MAT_SetToggleKey,
     MAT_SetTerminateKey,
     MAT_SetToggleType,
@@ -60,83 +62,6 @@ struct Macro
 
 namespace MacroCore
 {
-    template<typename T>
-    bool EnsureValidKeyword(const std::string& line, std::string& keyword, std::vector<std::pair<std::string, T>> vec);
-    MacroAction ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro);
-    void ExecuteAction(const MacroAction& action);
-
-    namespace ThreadFlow
-    {
-        namespace Sleep
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action);   
-        }
-    }
-
-    namespace MouseInput
-    {
-        namespace SetMousePos
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action);   
-        }
-
-        namespace SetMousePosInterpolated
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action);   
-        }
-
-        namespace MouseDownUp
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action); 
-        }
-
-        namespace MouseClick
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action); 
-        }
-    }
-
-    namespace KeyboardInput
-    {
-        namespace KeyDownUp
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action);   
-        }
-
-        namespace KeyPress
-        {
-            void Process(std::istringstream& iss, MacroAction& action);
-            void Execute(const MacroAction& action);   
-        }
-    }
-
-    namespace MacroState
-    {
-        namespace SetStateKey
-        {
-            void Process(std::istringstream& iss, int& stateKey);
-        }
-
-        namespace SetToggleType
-        {
-            void Process(std::istringstream&iss, Macro& macro);
-        }
-    }
-
-    namespace RunMacro
-    {
-        void Run(const std::filesystem::path& path);
-
-        inline bool macroRunning = false;
-        inline bool quitMacro = false;
-    }
-    
     inline std::vector<std::pair<std::string, MacroActionType>> validKeywords{
 
         // Function Keywords
@@ -221,4 +146,81 @@ namespace MacroCore
         {"F11", VK_F11},
         {"F12", VK_F12}
     };
+    
+    template<typename T>
+    bool EnsureValidKeyword(const std::string& line, std::string& keyword, std::vector<std::pair<std::string, T>> vec);
+    MacroAction ProcessAction(std::istringstream& iss, const std::string& line, Macro& macro);
+    void ExecuteAction(const MacroAction& action);
+
+    namespace ThreadFlow
+    {
+        namespace Sleep
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+    }
+
+    namespace MouseInput
+    {
+        namespace SetMousePos
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+
+        namespace SetMousePosInterpolated
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+
+        namespace MouseDownUp
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action); 
+        }
+
+        namespace MouseClick
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action); 
+        }
+    }
+
+    namespace KeyboardInput
+    {
+        namespace KeyDownUp
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+
+        namespace KeyPress
+        {
+            void Process(std::istringstream& iss, MacroAction& action);
+            void Execute(const MacroAction& action);   
+        }
+    }
+
+    namespace MacroState
+    {
+        namespace SetStateKey
+        {
+            void Process(std::istringstream& iss, int& stateKey);
+        }
+
+        namespace SetToggleType
+        {
+            void Process(std::istringstream&iss, Macro& macro);
+        }
+    }
+
+    namespace RunMacro
+    {
+        void Run(const std::filesystem::path& path);
+
+        inline bool macroRunning = false;
+        inline bool quitMacro = false;
+    }
 }

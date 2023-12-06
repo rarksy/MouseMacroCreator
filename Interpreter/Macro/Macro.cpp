@@ -222,7 +222,7 @@ void MacroCore::RunMacro::Run(const std::filesystem::path& path)
                 macroRunning = false;
             break;
 
-        case MTT_RunOnce: // only runs the first action
+        case MTT_RunOnce:
 
             if (macroRunning)
                 macroRunning = false;
