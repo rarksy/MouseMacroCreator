@@ -225,7 +225,7 @@ namespace MacroCore
 
     namespace RunMacro
     {
-        void Run(const std::filesystem::path& path);
+        bool Run(const std::filesystem::path& path);
 
         inline bool macroRunning = false;
         inline bool quitMacro = false;
