@@ -45,9 +45,9 @@ struct MacroAction
     std::string stringArgument;
 
     bool keyPressToUpper = false;
-
-
+    
     bool isExecutable = true;
+    
     bool hasError = false;
 };
  
@@ -223,7 +223,7 @@ namespace MacroCore
 
         namespace SetToggleType
         {
-            void Process(std::istringstream&iss, Macro& macro);
+            void Process(std::istringstream& iss, Macro& macro);
         }
     }
     
