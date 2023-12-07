@@ -3,7 +3,11 @@ A simple macro / scripting language and interpreter primarily used for simulatin
 
 # Getting Started
 Head over to the releases page and download the latest interpreter binary.  
-Upon extracting and opening, the interpreter will create a new folder titled `Macros`, this is where you will place any macros you create.  
+You will need to extract the interpreter from the `.7z` file.  
+To execute a created macro, simply drag and drop the macro file onto the interpreter to open it.  
+
+> [!NOTE]
+> An installer / file extension association tool is in development, there will be more info here once its ready.   
 
 > [!IMPORTANT]
 > Macros must have the file extension '.mmc'  
