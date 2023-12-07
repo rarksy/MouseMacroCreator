@@ -5,7 +5,7 @@ void MacroCore::MouseInput::SetMousePos::Process(std::istringstream& iss, MacroA
 {
     std::pair<int, int> pos;
 
-    if (iss >> action.keyword >> pos.first >> pos.second)
+    if (iss >> pos.first >> pos.second)
         action.pairArgument = pos;
 }
 
@@ -19,31 +19,31 @@ void MacroCore::MouseInput::SetMousePosInterpolated::Process(std::istringstream&
     std::pair<int, int> pos;
     int timeToComplete;
 
-    if (iss >> action.keyword >> pos.first >> pos.second >> timeToComplete)
+    if (iss >> pos.first >> pos.second >> timeToComplete)
     {
         action.pairArgument = pos;
         action.intArgument = timeToComplete;
     }
 }
 
-void MacroCore::MouseInput::SetMousePosInterpolated::Execute(const MacroAction& action)
+void MacroCore::MouseInput::SetMousePosInterpolated::Execute(const MacroAction& action) // rework at some point
 {
     POINT cursorPos;
     GetCursorPos(&cursorPos);
 
-    int targetX = action.pairArgument.first;
-    int targetY = action.pairArgument.second;
+    const int targetX = action.pairArgument.first;
+    const int targetY = action.pairArgument.second;
 
-    int totalDuration = action.intArgument;
+    const int totalDuration = action.intArgument;
     
-    int deltaX = targetX - cursorPos.x;
-    int deltaY = targetY - cursorPos.y;
+    const int deltaX = targetX - cursorPos.x;
+    const int deltaY = targetY - cursorPos.y;
     
-    double totalDistance = std::hypot(deltaX, deltaY);
+    const double totalDistance = std::hypot(deltaX, deltaY);
     
-    double speed = totalDistance / totalDuration;
+    const double speed = totalDistance / totalDuration;
     
-    auto startTime = std::chrono::high_resolution_clock::now();
+    const auto startTime = std::chrono::high_resolution_clock::now();
     
     for (int elapsed = 0; elapsed <= totalDuration; elapsed++)
     {
@@ -57,13 +57,12 @@ void MacroCore::MouseInput::SetMousePosInterpolated::Execute(const MacroAction& 
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     
-    auto endTime = std::chrono::high_resolution_clock::now();
-    auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+    const auto endTime = std::chrono::high_resolution_clock::now();
+    const auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
 
     if (elapsedTime < totalDuration)
-    {
         std::this_thread::sleep_for(std::chrono::milliseconds(totalDuration - elapsedTime));
-    }
+    
 }
 
 
@@ -71,8 +70,14 @@ void MacroCore::MouseInput::MouseDownUp::Process(std::istringstream& iss, MacroA
 {
     std::string mouseButton;
 
-    if (iss >> action.keyword >> mouseButton)
+    if (iss >> mouseButton)
         action.stringArgument = mouseButton;
+
+    if (action.stringArgument.find("Thumb1") != std::string::npos)
+        action.intArgument = XBUTTON1;
+
+    if (action.stringArgument.find("Thumb2") != std::string::npos)
+        action.intArgument = XBUTTON2;
 }
 
 void MacroCore::MouseInput::MouseDownUp::Execute(const MacroAction& action)
@@ -87,7 +92,7 @@ void MacroCore::MouseInput::MouseDownUp::Execute(const MacroAction& action)
     if (it != validMouseButtons.end())
         button = action.actionType == MAT_MouseDown ? it->second.first : it->second.second;
 
-    mouse_event(button, 0, 0, 0, 0);
+    mouse_event(button, 0, 0, action.intArgument, 0);
 }
 
 void MacroCore::MouseInput::MouseClick::Process(std::istringstream& iss, MacroAction& action)

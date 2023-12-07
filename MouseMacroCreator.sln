@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseMacroCreator", "MouseMacroCreator\MouseMacroCreator.vcxproj", "{0C18BC9B-176B-4499-8BDF-533BAB6E7D4D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interpreter", "Interpreter\Interpreter.vcxproj", "{0C18BC9B-176B-4499-8BDF-533BAB6E7D4D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Installer", "Installer\Installer.vcxproj", "{9AB77348-B435-4A98-97E9-397DCCD02D7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,13 @@ Global
 		{0C18BC9B-176B-4499-8BDF-533BAB6E7D4D}.Release|Win32.Build.0 = Release|Win32
 		{0C18BC9B-176B-4499-8BDF-533BAB6E7D4D}.Release|x64.ActiveCfg = Release|x64
 		{0C18BC9B-176B-4499-8BDF-533BAB6E7D4D}.Release|x64.Build.0 = Release|x64
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Debug|Win32.Build.0 = Debug|Win32
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Debug|x64.ActiveCfg = Debug|x64
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Debug|x64.Build.0 = Debug|x64
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Release|Win32.ActiveCfg = Release|Win32
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Release|Win32.Build.0 = Release|Win32
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Release|x64.ActiveCfg = Release|x64
+		{9AB77348-B435-4A98-97E9-397DCCD02D7C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal

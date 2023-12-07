@@ -1,0 +1,24 @@
+; This Macro Is Used When Debugging / Running The Application Through The IDE
+; DO NOT DELETE
+
+SetToggleType RunOnce
+Log ToggleType: RunOnce
+
+SetToggleKey F2
+Log ToggleKey: F2
+
+SetTerminateKey F3
+Log TerminateKey F3
+
+SetMousePos 50 50
+
+SetMousePosInterpolated 50 100 10
+
+Sleep 1000
+
+; Only testing MouseClick as it runs both MouseDown/Up
+MouseClick Left
+
+KeyPress 1
+
+Log FINISHED

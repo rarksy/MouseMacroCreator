@@ -10,6 +10,9 @@ Upon extracting and opening, the interpreter will create a new folder titled `Ma
 
 # Documentation 📖
 
+> [!TIP]
+> A Sublime Text syntax format is available [here](https://cdn.discordapp.com/attachments/1109714013773910026/1181598748967710782/mmc.sublime-syntax?ex=6581a496&is=656f2f96&hm=fd430b047acc54a1f632893d5648c153e96b4ca7386d477fa4f7a26a79c3e9e9&)  
+
 ## Info
 
 > [!IMPORTANT]
@@ -21,15 +24,38 @@ Upon extracting and opening, the interpreter will create a new folder titled `Ma
 
 ## Keywords
 
+## SetToggleType
+- Sets the method used to toggle the macro on or off  
+Usage: `SetToggleType <type>`  
+> [!IMPORTANT]
+> All toggle types include:  
+> `Toggle`: Toggles the macro on/off with a single keypress  
+> `RunOnce`: Toggles the macro on, runs the script once, then turns off again  
+> `HoldOn`: Toggles the macro on while the toggle key is held down  
+> `HoldOff`: Toggles the macro on while the toggle key is **NOT** held down  
+
+## SetToggleKey
+- Sets the key used to toggle the macro on and off  
+Usage: `SetToggleKey <key>`  
+> [!NOTE]
+> Running a script without this keyword will set the default toggle key to F8  
+
+## SetTerminateKey
+- Sets the key used to terminate/quit the macro 
+Usage: `SetTerminateKey <key>`  
+> [!NOTE]
+> Running a script without this keyword will set the default toggle key to F9  
+
+
 ## SetMousePos
 - Sets the mouse's position to a desired location on the screen  
 Usage: `SetMousePos <x> <y>`
 
 ## SetMousePosInterpolated
 - Sets the mouse's position to a desired location on the screen at a determined speed  
-Usage: `SetMousePosInterpolated <x> <y> <speed>`  
+Usage: `SetMousePosInterpolated <x> <y> <delay>`  
 > [!NOTE]
-> The lower the number entered for speed, the faster the mouse will reach the desired position.  
+> The lower the number entered for delay, the faster the mouse will reach the desired position.  
 
 ## Sleep
 - Creates a delay before executing the next action  
@@ -37,6 +63,9 @@ Usage: `Sleep <number>`
 > [!NOTE]
 > Delay number is in milliseconds
 
+## Log
+- Logs content to the console  
+Usage: `Log <message>`  
 
 ## MouseDown
 #mousedown
@@ -62,6 +91,7 @@ Usage: `MouseClick <button>`
 - Presses down a specified key on the keyboard  
 Usage: `KeyDown <key>`  
 > [!TIP]
+> All keys supported, if you find one that ISNT, report it so it can be fixed  
 
 ## KeyUp
 - Releases a key previously pressed by `KeyDown`  

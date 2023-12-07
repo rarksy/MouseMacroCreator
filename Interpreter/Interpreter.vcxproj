@@ -78,12 +78,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -156,20 +158,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GUI's\Specifics\GetSavedMacros.cpp" />
-    <ClCompile Include="GUI's\Specifics\LogSavedMacros.cpp" />
     <ClCompile Include="Macro\Features\KeyboardInput.cpp" />
+    <ClCompile Include="Macro\Features\MacroState.cpp" />
     <ClCompile Include="Macro\Features\MouseInput.cpp" />
     <ClCompile Include="Macro\Features\ThreadFlow.cpp" />
     <ClCompile Include="Macro\Macro.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GUI's\GUI.h" />
     <ClInclude Include="Macro\Macro.h" />
     <ClInclude Include="Menu\Menu.h" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\DebugMacro.mmc" />
     <Content Include="..\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
