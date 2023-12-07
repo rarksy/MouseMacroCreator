@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
         return 2;
     }
     
-    std::wstring consoleTitle = L"MMC | " + macroPath.filename().wstring();
+    const std::wstring consoleTitle = L"MMC | " + macroPath.filename().wstring();
     SetConsoleTitle(consoleTitle.c_str());
     
     // Run The Macro

@@ -178,7 +178,7 @@ bool MacroCore::RunMacro::ProcessMacro::Run(const std::filesystem::path& path, M
             continue;
 
         // Setup Action
-        MacroAction action = ProcessAction(iss, macro);
+        const MacroAction action = ProcessAction(iss, macro);
 
         // Check If Action Setup Failed
         if (action.hasError)
