@@ -18,6 +18,7 @@ void MacroCore::MacroState::SetStateKey::Process(std::istringstream& iss, int& s
                 return _key.first == toggleKey;
             });
 
+            if (it != validKeys.end())
             stateKey = it->second;
         }
     }
@@ -34,6 +35,7 @@ void MacroCore::MacroState::SetToggleType::Process(std::istringstream& iss, Macr
             return type.first == toggleType;
         });
 
-        macro.toggleType = it->second;
+        if (it != validToggleTypes.end())
+            macro.toggleType = it->second;
     }
 }
