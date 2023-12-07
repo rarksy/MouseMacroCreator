@@ -12,17 +12,18 @@ void MacroCore::KeyboardInput::KeyDownUp::Process(std::istringstream& iss, Macro
                 action.keyPressToUpper = true;
 
             action.intArgument = VkKeyScan(key.at(0));
+
+            return;
         }
 
-        else
+        const auto it = std::ranges::find_if(validKeys, [&key](const auto& _key)
         {
-            const auto it = std::ranges::find_if(validKeys, [&key](const auto& _key)
-            {
-               return _key.first == key; 
-            });
+            return _key.first == key;
+        });
 
+
+        if (it != validKeys.end())
             action.intArgument = it->second;
-        }
     }
 }
 
@@ -35,7 +36,7 @@ void MacroCore::KeyboardInput::KeyDownUp::Execute(const MacroAction& action)
     input.ki.dwExtraInfo = 0;
     input.ki.wVk = action.intArgument;
     input.ki.dwFlags = action.actionType == MAT_KeyUp ? KEYEVENTF_KEYUP : 0;
-    
+
     INPUT shiftInput = input;
     shiftInput.ki.wVk = VK_SHIFT;
 
@@ -57,5 +58,4 @@ void MacroCore::KeyboardInput::KeyPress::Execute(const MacroAction& action)
     KeyDownUp::Execute(actionCopy);
     actionCopy.actionType = MAT_KeyUp;
     KeyDownUp::Execute(actionCopy);
-    
 }
